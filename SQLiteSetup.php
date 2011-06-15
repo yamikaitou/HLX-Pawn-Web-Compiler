@@ -1,5 +1,8 @@
 <?php
 
+if (!file_exists("configs"))
+    mkdir("configs", 0775);
+
 $sql = sqlite_open("configs/data");
 
 sqlite_exec($sql, "CREATE TABLE versions (ID INTEGER PRIMARY KEY, Name TEXT, Folder TEXT, Program TEXT)");
