@@ -48,8 +48,12 @@ function removeRowFromTable(comp, id)
 
 $sql = sqlite_open("configs/data");
 
-$key = sqlite_query($sql, "SELECT * FROM info");
-$info = sqlite_fetch_all($key);
+$info_results = sqlite_query($sql, "SELECT * FROM info");
+$info = sqlite_fetch_all($info_results);
+$amxx_results = sqlite_query($sql, "SELECT * FROM amxxversions");
+$amxx = sqlite_fetch_all($info_results);
+$sm_results = sqlite_query($sql, "SELECT * FROM smversions");
+$sm = sqlite_fetch_all($info_results);
 
 if ($_GET['key'] != $info[0]['Value'])
 {
@@ -72,6 +76,23 @@ if (isset($_POST['submit']))
     if ($info[6]['Value'] != $_POST['ipbupload'])
         sqlite_exec($sql, "UPDATE info SET Value = '{$_POST['ipbupload']}' WHERE ID = 7");
     
+    sqlite_exec($sql, "DELETE FROM amxxversions");
+    $count = 0;
+    while ($count < count($_POST['amxxver']))
+        sqlite_exec($sql, "INSERT INTO amxxversions VALUES (NULL, '". $_POST['amxxver'][$count] ."', '". $_POST['amxxfold'][$count++] ."')");
+    
+    sqlite_exec($sql, "DELETE FROM smversions");
+    $count = 0;
+    while ($count < count($_POST['smver']))
+        sqlite_exec($sql, "INSERT INTO smversions VALUES (NULL, '". $_POST['smver'][$count] ."', '". $_POST['smfold'][$count++] ."')");
+    
+    
+    $amxx_results = sqlite_query($sql, "SELECT * FROM amxxversions");
+    $amxx = sqlite_fetch_all($amxx_results);
+    $sm_results = sqlite_query($sql, "SELECT * FROM smversions");
+    $sm = sqlite_fetch_all($sm_results);
+    
+    
     echo "Settings have been updated.<br><br>";
     
     
@@ -82,8 +103,8 @@ if (isset($_POST['submit']))
         exit();
     }
     
-    $key = sqlite_query($sql, "SELECT * FROM info");
-    $info = sqlite_fetch_all($key);
+    $info_results = sqlite_query($sql, "SELECT * FROM info");
+    $info = sqlite_fetch_all($info_results);
 }
 
 ?>
@@ -107,14 +128,28 @@ View/Alter various System Settings below<br>
 <table id="amxx">
 <tr><th colspan="3">AMXx Compiler Versions</th></tr>
 <tr><td>Version</td><td>Folder</td><td></td></tr>
-<tr><td><input type="text" name="amxxver[]" id="amxxver1"></td><td><input type="text" name="amxxfold[]" id="amxxfold1"></td><td><input type="button" value="Remove" id="amxxdel1" onclick="removeRowFromTable('amxx', 1);"></td></tr>
+<?php
+
+for ($k = 0; $k < count($amxx); $k++)
+{
+    echo "<tr><td><input type=\"text\" name=\"amxxver[]\" id=\"amxxver1\" value=\"{$amxx[$k]['Name']}\"></td><td><input type=\"text\" name=\"amxxfold[]\" id=\"amxxfold1\" value=\"{$amxx[$k]['Folder']}\"></td><td><input type=\"button\" value=\"Remove\" id=\"amxxdel1\" onclick=\"removeRowFromTable('amxx', 1);\"></td></tr>";
+}
+
+?>
 </table>
 <input type="button" value="Add" onclick="addRowToTable('amxx');">
 <br><br>
 <table id="sm">
 <tr><th colspan="3">SM Compiler Versions</th></tr>
 <tr><td>Version</td><td>Folder</td><td></td></tr>
-<tr><td><input type="text" name="smver[]" id="smver1"></td><td><input type="text" name="smfold[]" id="smfold1"></td><td><input type="button" value="Remove" id="smdel1" onclick="removeRowFromTable('sm', 1);"></td></tr>
+<?php
+
+for ($k = 0; $k < count($sm); $k++)
+{
+    echo "<tr><td><input type=\"text\" name=\"smver[]\" id=\"smver1\" value=\"{$sm[$k]['Name']}\"></td><td><input type=\"text\" name=\"smfold[]\" id=\"smfold1\" value=\"{$sm[$k]['Folder']}\"></td><td><input type=\"button\" value=\"Remove\" id=\"smdel1\" onclick=\"removeRowFromTable('sm', 1);\"></td></tr>";
+}
+
+?>
 </table>
 <input type="button" value="Add" onclick="addRowToTable('sm');">
 <br><br><br>
