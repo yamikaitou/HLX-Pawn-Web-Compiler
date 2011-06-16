@@ -51,9 +51,9 @@ $sql = sqlite_open("configs/data");
 $info_results = sqlite_query($sql, "SELECT * FROM info");
 $info = sqlite_fetch_all($info_results);
 $amxx_results = sqlite_query($sql, "SELECT * FROM amxxversions");
-$amxx = sqlite_fetch_all($info_results);
+$amxx = sqlite_fetch_all($amxx_results);
 $sm_results = sqlite_query($sql, "SELECT * FROM smversions");
-$sm = sqlite_fetch_all($info_results);
+$sm = sqlite_fetch_all($sm_results);
 
 if ($_GET['key'] != $info[0]['Value'])
 {
