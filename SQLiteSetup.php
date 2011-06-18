@@ -17,6 +17,8 @@ sqlite_exec($sql, "INSERT INTO info VALUES(4, 'Compiled', '.');");
 sqlite_exec($sql, "INSERT INTO info VALUES(5, 'TempUpload', '.');");
 sqlite_exec($sql, "INSERT INTO info VALUES(6, 'vBUpload', '.');");
 sqlite_exec($sql, "INSERT INTO info VALUES(7, 'IPBUpload', '.');");
+sqlite_exec($sql, "CREATE TABLE compile (ID INTEGER, Program TEXT)");
+sqlite_exec($sql, "CREATE TABLE stats (ID INTEGER, Value1 TEXT, Value2 TEXT)");
 
 sqlite_close($sql);
 
