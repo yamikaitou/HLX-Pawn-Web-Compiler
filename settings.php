@@ -27,8 +27,16 @@ function addRowToTable(comp)
     folder.id = comp + 'fold' + iteration;
     cellFolder.appendChild(folder);
     
+    // Order cell
+    var cellOrder = row.insertCell(2);
+    var order = document.createElement('input');
+    order.type = 'text';
+    order.name = comp + 'order[]';
+    order.id = comp + 'order' + iteration;
+    cellOrder.appendChild(order);
+    
     // Delete cell
-    var cellDelete = row.insertCell(2);
+    var cellDelete = row.insertCell(3);
     var del = document.createElement('input');
     del.type = 'button';
     del.id = comp + 'del' + iteration;
@@ -79,12 +87,12 @@ if (isset($_POST['submit']))
     sqlite_exec($sql, "DELETE FROM amxxversions");
     $count = 0;
     while ($count < count($_POST['amxxver']))
-        sqlite_exec($sql, "INSERT INTO amxxversions VALUES (NULL, '". $_POST['amxxver'][$count] ."', '". $_POST['amxxfold'][$count++] ."')");
+        sqlite_exec($sql, "INSERT INTO amxxversions VALUES (NULL, '". $_POST['amxxver'][$count] ."', '". $_POST['amxxfold'][$count] ."', '". $_POST['amxxorder'][$count++] ."')");
     
     sqlite_exec($sql, "DELETE FROM smversions");
     $count = 0;
     while ($count < count($_POST['smver']))
-        sqlite_exec($sql, "INSERT INTO smversions VALUES (NULL, '". $_POST['smver'][$count] ."', '". $_POST['smfold'][$count++] ."')");
+        sqlite_exec($sql, "INSERT INTO smversions VALUES (NULL, '". $_POST['smver'][$count] ."', '". $_POST['smfold'][$count] ."', '". $_POST['smorder'][$count++] ."')");
     
     
     $amxx_results = sqlite_query($sql, "SELECT * FROM amxxversions");
@@ -126,13 +134,13 @@ View/Alter various System Settings below<br>
 </table>
 <br><br>
 <table id="amxx">
-<tr><th colspan="3">AMXx Compiler Versions</th></tr>
-<tr><td>Version</td><td>Folder</td><td></td></tr>
+<tr><th colspan="4">AMXx Compiler Versions</th></tr>
+<tr><td>Version</td><td>Folder</td><td>Order</td><td></td></tr>
 <?php
 
 for ($k = 0; $k < count($amxx); $k++)
 {
-    echo "<tr><td><input type=\"text\" name=\"amxxver[]\" id=\"amxxver1\" value=\"{$amxx[$k]['Name']}\"></td><td><input type=\"text\" name=\"amxxfold[]\" id=\"amxxfold1\" value=\"{$amxx[$k]['Folder']}\"></td><td><input type=\"button\" value=\"Remove\" id=\"amxxdel1\" onclick=\"removeRowFromTable('amxx', 1);\"></td></tr>";
+    echo "<tr><td><input type=\"text\" name=\"amxxver[]\" id=\"amxxver1\" value=\"{$amxx[$k]['Name']}\"></td><td><input type=\"text\" name=\"amxxfold[]\" id=\"amxxfold1\" value=\"{$amxx[$k]['Folder']}\"></td><td><input type=\"text\" name=\"amxxorder[]\" id=\"amxxorder1\" value=\"{$amxx[$k]['Display']}\"></td><td><input type=\"button\" value=\"Remove\" id=\"amxxdel1\" onclick=\"removeRowFromTable('amxx', 1);\"></td></tr>";
 }
 
 ?>
@@ -140,13 +148,13 @@ for ($k = 0; $k < count($amxx); $k++)
 <input type="button" value="Add" onclick="addRowToTable('amxx');">
 <br><br>
 <table id="sm">
-<tr><th colspan="3">SM Compiler Versions</th></tr>
-<tr><td>Version</td><td>Folder</td><td></td></tr>
+<tr><th colspan="4">SM Compiler Versions</th></tr>
+<tr><td>Version</td><td>Folder</td><td>Order</td><td></td></tr>
 <?php
 
 for ($k = 0; $k < count($sm); $k++)
 {
-    echo "<tr><td><input type=\"text\" name=\"smver[]\" id=\"smver1\" value=\"{$sm[$k]['Name']}\"></td><td><input type=\"text\" name=\"smfold[]\" id=\"smfold1\" value=\"{$sm[$k]['Folder']}\"></td><td><input type=\"button\" value=\"Remove\" id=\"smdel1\" onclick=\"removeRowFromTable('sm', 1);\"></td></tr>";
+    echo "<tr><td><input type=\"text\" name=\"smver[]\" id=\"smver1\" value=\"{$sm[$k]['Name']}\"></td><td><input type=\"text\" name=\"smfold[]\" id=\"smfold1\" value=\"{$sm[$k]['Folder']}\"></td><td><input type=\"text\" name=\"smorder[]\" id=\"smorder1\" value=\"{$sm[$k]['Display']}\"></td><td><input type=\"button\" value=\"Remove\" id=\"smdel1\" onclick=\"removeRowFromTable('sm', 1);\"></td></tr>";
 }
 
 ?>
