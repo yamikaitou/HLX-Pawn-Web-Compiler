@@ -24,38 +24,36 @@ $compile = sqlite_fetch_array($compile_results);
 if ($compile === FALSE)
     die ("File ID not found");
 
-if (isset($_GET['ver']
-
 if ($compile['Program'] == 'amxx')
 {
     $amxx_results = sqlite_query($sql, "SELECT * FROM amxxversions WHERE Folder = '".$compile['Version']."'");
     $amxx = sqlite_fetch_all($amxx_results);
     
-    if (sqlite_num_rows($amxx) == 1)
+    if (sqlite_num_rows($amxx_results) == 1)
         $folder = $compile['Version'];
     else
         $folder = ".";
     
     @mkdir($info[3]['Value']."/$id");
-    touch($info[3]['Value']."/$id/temp.txt");
     $files = scandir($info[4]['Value']."/$id/");
     foreach ($files as $file)
         if ($file != "." && $file != ".." && substr($file, -3) == "sma")
         {
-            file_put_contents($info[3]['Value']."/$id/temp.txt", "Compiling ".$file." using AMXX ". "\n", FILE_APPEND);
-            exec("cd ".$info[1]['Value']."/$folder; ./amxxpc \"".$info[4]['Value']."/$id/$file\" -o".$info[3]['Value']."/$id/".substr($file, 0, -4).".amxx"." >> ".$info[3]['Value']."/$id/temp.txt");
-            file_put_contents($info[3]['Value']."/$id/temp.txt", "\n", FILE_APPEND);
+            touch($info[3]['Value']."/$id/".substr($file, 0, -4).".txt");
+            file_put_contents($info[3]['Value']."/$id/".substr($file, 0, -4).".txt", "Compiling ".$file."\n", FILE_APPEND);
+            exec("cd ".$info[1]['Value']."/$folder; ./amxxpc \"".$info[4]['Value']."/$id/$file\" -o".$info[3]['Value']."/$id/".substr($file, 0, -4).".amxx"." >> ".$info[3]['Value']."/$id/".substr($file, 0, -4).".txt");
+            file_put_contents($info[3]['Value']."/$id/".substr($file, 0, -4).".txt", "\n", FILE_APPEND);
         }
-    $fail = explode("\n", file_get_contents($info[3]['Value']."/$id/temp.txt"));
-	for ($k = 0; $k < sizeof($fail); $k++)
-		echo $fail[$k]."<br />";
+//    $fail = explode("\n", file_get_contents($info[3]['Value']."/$id/temp.txt"));
+//	for ($k = 0; $k < sizeof($fail); $k++)
+//		echo $fail[$k]."<br />";
 }
 else if ($compile['Program'] == 'sm')
 {
     $sm_results = sqlite_query($sql, "SELECT * FROM smversions");
     $sm = sqlite_fetch_all($sm_results);
     
-    if (sqlite_num_rows($sm) == 1)
+    if (sqlite_num_rows($sm_results) == 1)
         $folder = $compile['Version'];
     else
         $folder = ".";
