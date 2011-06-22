@@ -59,18 +59,18 @@ else if ($compile['Program'] == 'sm')
         $folder = ".";
     
     @mkdir($info[3]['Value']."/$id");
-    touch($info[3]['Value']."/$id/temp.txt");
     $files = scandir($info[4]['Value']."/$id/");
     foreach ($files as $file)
         if ($file != "." && $file != ".." && substr($file, -2) == "sp")
         {
-            file_put_contents($info[3]['Value']."/$id/temp.txt", "Compiling ".$file."\n", FILE_APPEND);
-            exec("cd ".$info[2]['Value']."/$folder; ./spcomp \"".$info[4]['Value']."/$id/$file\" -o".$info[3]['Value']."/$id/".substr($file, 0, -3).".smx"." >> ".$info[3]['Value']."/$id/temp.txt");
-            file_put_contents($info[3]['Value']."/$id/temp.txt", "\n", FILE_APPEND);
+            touch($info[3]['Value']."/$id/".substr($file, 0, -3).".txt");
+            file_put_contents($info[3]['Value']."/$id/".substr($file, 0, -3).".txt", "Compiling ".$file."\n", FILE_APPEND);
+            exec("cd ".$info[2]['Value']."/$folder; ./spcomp \"".$info[4]['Value']."/$id/$file\" -o".$info[3]['Value']."/$id/".substr($file, 0, -3).".smx"." >> ".$info[3]['Value']."/$id/".substr($file, 0, -3).".txt");
+            file_put_contents($info[3]['Value']."/$id/".substr($file, 0, -3).".txt", "\n", FILE_APPEND);
         }
-    $fail = explode("\n", file_get_contents($info[3]['Value']."/$id/temp.txt"));
-	for ($k = 0; $k < sizeof($fail); $k++)
-		echo $fail[$k]."<br />";
+//    $fail = explode("\n", file_get_contents($info[3]['Value']."/$id/temp.txt"));
+//	for ($k = 0; $k < sizeof($fail); $k++)
+//		echo $fail[$k]."<br />";
 }
 
 
