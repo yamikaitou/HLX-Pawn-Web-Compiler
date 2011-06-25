@@ -1,6 +1,8 @@
 <html>
 <head>
-<title>Compiler Settings</title>
+<title>SuperCentral - Compiler</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="bluebliss.css" />
 <script language="javascript" type="text/javascript">
 
 function addRowToTable(comp)
@@ -52,6 +54,21 @@ function removeRowFromTable(comp, id)
 </script>
 </head>
 <body>
+<div id="mainContentArea">
+<div id="contentBox">
+<div id="title">SuperCentral Compiler</div>
+
+<div id="linkGroup">
+<div class="link"><a href="index.html">Home</a></div>
+<div class="link"><a href="amxmodx.php">AMXModX</a></div>
+<div class="link"><a href="index.html">SourceMod</a></div>
+<div class="link"><a href="index.html">Stats</a></div>
+</div>
+
+<div id="blueBox"> 
+<div id="header"></div>
+<div class="contentTitle">System Settings</div>
+<div class="pageContent">
 <?php
 
 $sql = sqlite_open("configs/data");
@@ -65,7 +82,7 @@ $sm = sqlite_fetch_all($sm_results);
 
 if ($_GET['key'] != $info[0]['Value'])
 {
-    echo "Hacking attempt detected, halting....";
+    echo "Hacking attempt detected";
     exit();
 }
 
@@ -116,8 +133,6 @@ if (isset($_POST['submit']))
 }
 
 ?>
-View/Alter various System Settings below<br>
-<br>
 <form method="post" action="settings.php?key=<?php echo $info[0]['Value']; ?>">
 <table>
 <tr><td>Change the Key:</td><td><input type="password" name="key"></td></tr>
@@ -163,6 +178,11 @@ for ($k = 0; $k < count($sm); $k++)
 <br><br><br>
 <input type="submit" name="submit" value="Submit">
 </form>
+</div>
+<div id="footer">design by <a href="http://www.bryantsmith.com">bryant smith</a> | script by <a href="https://github.com/yamikaitou/Supercentral-Compiler">ryan leblanc</a> </div>
+</div>
+</div>
+</div>
 </body>
 </html>
 <?php
