@@ -59,15 +59,26 @@ if (isset($_POST['compile']))
     curl_exec($curl);
     curl_close($curl);
     
-    $fail = explode("\n", file_get_contents($info[3]['Value']."/$rand/".substr($file, 0, -4).".txt"));
-	for ($k = 0; $k < sizeof($fail); $k++)
-		echo $fail[$k]."<br>";
     
+    if (count(scandir($info[4]['Value']."/$rand")) & 1)
+    {
+        echo "Compile failed. See the compiler output below.<br><br>";
+    }
+    else
+    {
 ?>
 Use the link below to download your plugin. It will expire after 1 hour<br>
 <a href="http://compiler.supercentral.net/download.php?id=<?php echo $rand; ?>">http://compiler.supercentral.net/download.php?id=<?php echo $rand; ?></a><br>
+<br>
+The compiler's output is shown below for reference.<br>
+<br>
 <?
 
+    }
+    
+    $fail = explode("\n", file_get_contents($info[3]['Value']."/$rand/".substr($file, 0, -4).".txt"));
+	for ($k = 0; $k < sizeof($fail); $k++)
+		echo $fail[$k]."<br>";
 }
 else
 {
