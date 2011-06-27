@@ -37,12 +37,12 @@ if ($compile['Program'] == 'amxx')
     @mkdir($info[3]['Value']."/$id");
     $files = scandir($info[4]['Value']."/$id/");
     foreach ($files as $file)
-        if ($file != "." && $file != ".." && substr($file, -3) == "sma")
+        if ($file != "." && $file != ".." && pathinfo($file, PATHINFO_FILENAME) == "sma")
         {
-            touch($info[3]['Value']."/$id/".substr($file, 0, -4).".txt");
-            file_put_contents($info[3]['Value']."/$id/".substr($file, 0, -4).".txt", "Compiling ".$file."\n", FILE_APPEND);
-            exec("cd ".$info[1]['Value']."/$folder; ./amxxpc \"".$info[4]['Value']."/$id/$file\" -o".$info[3]['Value']."/$id/".substr($file, 0, -4).".amxx"." >> ".$info[3]['Value']."/$id/".substr($file, 0, -4).".txt");
-            file_put_contents($info[3]['Value']."/$id/".substr($file, 0, -4).".txt", "\n", FILE_APPEND);
+            touch($info[3]['Value']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt");
+            file_put_contents($info[3]['Value']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt", "Compiling ".$file."\n", FILE_APPEND);
+            exec("cd ".$info[1]['Value']."/$folder; ./amxxpc \"".$info[4]['Value']."/$id/$file\" -o".$info[3]['Value']."/$id/".pathinfo($file, PATHINFO_FILENAME).".amxx"." >> ".$info[3]['Value']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt");
+            file_put_contents($info[3]['Value']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt", "\n", FILE_APPEND);
         }
 //    $fail = explode("\n", file_get_contents($info[3]['Value']."/$id/temp.txt"));
 //	for ($k = 0; $k < sizeof($fail); $k++)
@@ -61,12 +61,12 @@ else if ($compile['Program'] == 'sm')
     @mkdir($info[3]['Value']."/$id");
     $files = scandir($info[4]['Value']."/$id/");
     foreach ($files as $file)
-        if ($file != "." && $file != ".." && substr($file, -2) == "sp")
+        if ($file != "." && $file != ".." && pathinfo($file, PATHINFO_FILENAME) == "sp")
         {
-            touch($info[3]['Value']."/$id/".substr($file, 0, -3).".txt");
-            file_put_contents($info[3]['Value']."/$id/".substr($file, 0, -3).".txt", "Compiling ".$file."\n", FILE_APPEND);
-            exec("cd ".$info[2]['Value']."/$folder; ./spcomp \"".$info[4]['Value']."/$id/$file\" -o".$info[3]['Value']."/$id/".substr($file, 0, -3).".smx"." >> ".$info[3]['Value']."/$id/".substr($file, 0, -3).".txt");
-            file_put_contents($info[3]['Value']."/$id/".substr($file, 0, -3).".txt", "\n", FILE_APPEND);
+            touch($info[3]['Value']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt");
+            file_put_contents($info[3]['Value']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt", "Compiling ".$file."\n", FILE_APPEND);
+            exec("cd ".$info[2]['Value']."/$folder; ./spcomp \"".$info[4]['Value']."/$id/$file\" -o".$info[3]['Value']."/$id/".pathinfo($file, PATHINFO_FILENAME).".smx"." >> ".$info[3]['Value']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt");
+            file_put_contents($info[3]['Value']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt", "\n", FILE_APPEND);
         }
 //    $fail = explode("\n", file_get_contents($info[3]['Value']."/$id/temp.txt"));
 //	for ($k = 0; $k < sizeof($fail); $k++)

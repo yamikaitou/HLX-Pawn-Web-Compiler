@@ -47,7 +47,7 @@ if (isset($_POST['compile']))
     }
     else
     {
-        if (substr($_FILES['file']['name'], -3) == "sma")
+        if (pathinfo($_FILES['file']['name'], PATHINFO_FILENAME) == "sma")
             move_uploaded_file($_FILES['file']['tmp_name'], $info[4]['Value']."/$rand/".$_FILES['file']['name']);
         
         $file = $_FILES['file']['name'];
@@ -76,7 +76,7 @@ The compiler's output is shown below for reference.<br>
 
     }
     
-    $fail = explode("\n", file_get_contents($info[3]['Value']."/$rand/".substr($file, 0, -4).".txt"));
+    $fail = explode("\n", file_get_contents($info[3]['Value']."/$rand/".pathinfo($file, PATHINFO_FILENAME).".txt"));
 	for ($k = 0; $k < sizeof($fail); $k++)
 		echo $fail[$k]."<br>";
 }
