@@ -47,7 +47,7 @@ if (isset($_POST['compile']))
     }
     else
     {
-        if (pathinfo($_FILES['file']['name'], PATHINFO_FILENAME) == "sma")
+        if (pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION) == "sma")
             move_uploaded_file($_FILES['file']['tmp_name'], $info[4]['Value']."/$rand/".$_FILES['file']['name']);
         
         $file = $_FILES['file']['name'];
@@ -59,8 +59,7 @@ if (isset($_POST['compile']))
     curl_exec($curl);
     curl_close($curl);
     
-    
-    if (count(scandir($info[4]['Value']."/$rand")) & 1)
+    if (!count(scandir($info[4]['Value']."/$rand"))%2)
     {
         echo "Compile failed. See the compiler output below.<br><br>";
     }
