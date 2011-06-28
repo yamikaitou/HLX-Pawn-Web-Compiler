@@ -55,7 +55,7 @@ if (isset($_POST['compile']))
     
     sqlite_exec($sql, "INSERT INTO compile VALUES('$rand', 'amxx', '{$_POST['ver']}');");
 
-    $curl = curl_init("http://compiler.supercentral.net/compile.php?id=$rand");
+    $curl = curl_init("http://".$_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME)."/compile.php?id=$rand");
     curl_exec($curl);
     curl_close($curl);
     
@@ -67,7 +67,7 @@ if (isset($_POST['compile']))
     {
 ?>
 Use the link below to download your plugin. It will expire after 1 hour<br>
-<a href="http://compiler.supercentral.net/download.php?id=<?php echo $rand; ?>">http://compiler.supercentral.net/download.php?id=<?php echo $rand; ?></a><br>
+<a href="http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>/download.php?id=<?php echo $rand; ?>">http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>/download.php?id=<?php echo $rand; ?></a><br>
 <br>
 The compiler's output is shown below for reference.<br>
 <br>
