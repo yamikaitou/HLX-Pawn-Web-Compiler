@@ -43,17 +43,43 @@ if (isset($_POST['compile']))
     if ($_POST['boxcode'] != "")
     {
         file_put_contents($info[4]['Value']."/$rand/".$_POST['boxname'].".sma", stripslashes($_POST['boxcode']));
-        $file = $_POST['boxname'].".sma";
     }
     else
     {
-        if (pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION) == "sma")
-            move_uploaded_file($_FILES['file']['tmp_name'], $info[4]['Value']."/$rand/".$_FILES['file']['name']);
+        switch (pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION))
+        {
+            case "sma":
+            {
+                move_uploaded_file($_FILES['file']['tmp_name'], $info[4]['Value']."/$rand/".$_FILES['file']['name']);
+                break;
+            }
+            case "zip":
+            {
+                $zip = new ZipArchive;
+                $res = $zip->open($_FILES['file']['tmp_name']);
+                if ($res === TRUE)
+                {
+                    $zip->extractTo($info[4]['Value']."/$rand");
+                    $zip->close();
+                }
+                break;
+            }
+            case "gz":
+            {
+                move_uploaded_file($_FILES['file']['tmp_name'], $info[4]['Value']."/$rand/".$_FILES['file']['name']);
+                exec("cd {$info[4]['Value']}/$rand; tar xvfz ".$_FILES['file']['name']);
+                unlink($info[4]['Value']."/$rand/".$_FILES['file']['name']);
+                break;
+            }
+        }
         
-        $file = $_FILES['file']['name'];
+        
+        
     }
     
-    sqlite_exec($sql, "INSERT INTO compile VALUES('$rand', 'amxx', '{$_POST['ver']}');");
+    
+    
+    sqlite_exec($sql, "INSERT INTO compile VALUES('$rand', 'amxx', '{$_POST['ver']}', '".pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION)."');");
 
     $curl = curl_init("http://".$_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME)."/compile.php?id=$rand");
     curl_exec($curl);
@@ -75,9 +101,19 @@ The compiler's output is shown below for reference.<br>
 
     }
     
-    $fail = explode("\n", file_get_contents($info[3]['Value']."/$rand/".pathinfo($file, PATHINFO_FILENAME).".txt"));
-	for ($k = 0; $k < sizeof($fail); $k++)
-		echo $fail[$k]."<br>";
+    $files = scandir($info[3]['Value']."/$rand");
+    foreach ($files as $object)
+    {
+        if ($object != "." && $object != "..")
+        {
+            if (pathinfo($info[3]['Value']."/$rand/".$object, PATHINFO_EXTENSION) == "txt")
+            {
+                $fail = explode("\n", file_get_contents($info[3]['Value']."/$rand/$object"));
+                for ($k = 0; $k < sizeof($fail); $k++)
+                    echo $fail[$k]."<br>";
+            }
+        }
+    }
 }
 else
 {
