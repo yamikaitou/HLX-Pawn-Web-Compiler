@@ -58,7 +58,7 @@ background-image:url(images/tab2.gif);
 
 a
 {
-text-decoration:none;
+text-decoration:underline;
 }
 
 .link a{
