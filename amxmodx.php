@@ -151,7 +151,7 @@ if ($validated)
     curl_exec($curl);
     curl_close($curl);
     
-    if (!count(scandir($info[4]['Value']."/$rand"))%2)
+    if (count(scandir($info[3]['Value']."/$rand"))&1)
     {
         echo "Compile failed. See the compiler output below.<br><br>";
     }
