@@ -39,6 +39,7 @@ $amxx = sqlite_fetch_all($amxx_results);
 
 if (isset($_POST['compile']))
 {
+    $validated = TRUE;
     if ($_FILES['file']['error'] == UPLOAD_ERR_OK)
     {
         if (!in_array(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION), array('sma', 'zip', 'gz')))
@@ -46,7 +47,6 @@ if (isset($_POST['compile']))
             echo "<div class=\"alerterror\">Unable to proceed, invalid file type</div>";
             $validated = FALSE;
         }
-        $validated = TRUE;
     }
     else if ($_FILES['file']['error'] == UPLOAD_ERR_NO_FILE)
     {
