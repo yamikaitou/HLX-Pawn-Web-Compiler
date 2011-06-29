@@ -108,6 +108,12 @@ margin-right:20px;
 width:560px;
 }
 
+.alerterror
+{
+font-weight:bold;
+color:#FF0000;
+}
+
 
 #blueBox
 {
@@ -142,6 +148,7 @@ color:#BDCDEC;
 {
 font-size:9px;
 color:#BDCDEC;
+text-decoration:none;
 }
 
 #contentBox

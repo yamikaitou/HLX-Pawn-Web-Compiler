@@ -1,3 +1,11 @@
+<?php
+
+function find_ver_in_array($array)
+{
+    return array_search($_POST['ver'], $array);
+}
+
+?>
 <html>
 <head>
 <title>SuperCentral - Compiler</title>
@@ -30,6 +38,64 @@ $amxx_results = sqlite_query($sql, "SELECT * FROM amxxversions ORDER BY Display"
 $amxx = sqlite_fetch_all($amxx_results);
 
 if (isset($_POST['compile']))
+{
+    if ($_FILES['file']['error'] == UPLOAD_ERR_OK)
+    {
+        if (!in_array(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION), array('sma', 'zip', 'gz')))
+        {
+            echo "<div class=\"alerterror\">Unable to proceed, invalid file type</div>";
+            $validated = FALSE;
+        }
+        $validated = TRUE;
+    }
+    else if ($_FILES['file']['error'] == UPLOAD_ERR_NO_FILE)
+    {
+        if ($_POST['boxname'] == "")
+        {
+            echo "<div class=\"alerterror\">Unable to proceed, Plugin File Name missing</div>";
+            $validated = FALSE;
+        }
+        if ($_POST['boxcode'] == "")
+        {
+            echo "<div class=\"alerterror\">Unable to proceed, Plugin Code missing</div>";
+            $validated = FALSE;
+        }
+    }
+    else
+    {
+        switch ($_FILES['file']['error'])
+        {
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+            {
+                echo "<div class=\"alerterror\">Unable to proceed, File Size Limit Exceeded</div>";
+                $validated = FALSE;
+                break;
+            }
+            case UPLOAD_ERR_NO_TMP_DIR:
+            case UPLOAD_ERR_CANT_WRITE:
+            {
+                echo "<div class=\"alerterror\">Unable to proceed, Cannot write temporary file</div>";
+                $validated = FALSE;
+                break;
+            }
+            default:
+            {
+                echo "<div class=\"alerterror\">Unable to proceed, Unknown File related error</div>";
+                $validated = FALSE;
+                break;
+            }
+        }
+    }
+    
+    if (!(array_search(FALSE, array_map("find_ver_in_array", $amxx), TRUE) OR $_POST['ver'] == "."))
+    {
+        echo "<div class=\"alerterror\">Unable to proceed, Compiler Version missing</div>";
+        $validated = FALSE;
+    }
+}
+
+if ($validated)
 {
     do
     {
