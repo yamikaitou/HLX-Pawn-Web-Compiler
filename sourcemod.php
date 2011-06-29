@@ -26,7 +26,7 @@ function find_ver_in_array($array)
 
 <div id="blueBox"> 
 <div id="header"></div>
-<div class="contentTitle">AMXModX Compiler</div>
+<div class="contentTitle">SourceMod Compiler</div>
 <div class="pageContent">
 <?php
 
@@ -34,15 +34,15 @@ $sql = sqlite_open("configs/data");
 
 $info_results = sqlite_query($sql, "SELECT * FROM info");
 $info = sqlite_fetch_all($info_results);
-$amxx_results = sqlite_query($sql, "SELECT * FROM amxxversions ORDER BY Display");
-$amxx = sqlite_fetch_all($amxx_results);
+$sm_results = sqlite_query($sql, "SELECT * FROM smversions ORDER BY Display");
+$sm = sqlite_fetch_all($sm_results);
 
 if (isset($_POST['compile']))
 {
     $validated = TRUE;
     if ($_FILES['file']['error'] == UPLOAD_ERR_OK)
     {
-        if (!in_array(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION), array('sma', 'zip', 'gz')))
+        if (!in_array(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION), array('sp', 'zip', 'gz')))
         {
             echo "<div class=\"alerterror\">Unable to proceed, invalid file type</div>";
             $validated = FALSE;
@@ -88,7 +88,7 @@ if (isset($_POST['compile']))
         }
     }
     
-    if (!(array_search(FALSE, array_map("find_ver_in_array", $amxx), TRUE) OR $_POST['ver'] == "."))
+    if (!(array_search(FALSE, array_map("find_ver_in_array", $sm), TRUE) OR $_POST['ver'] == "."))
     {
         echo "<div class=\"alerterror\">Unable to proceed, Compiler Version missing</div>";
         $validated = FALSE;
@@ -108,13 +108,13 @@ if ($validated)
     
     if ($_POST['boxcode'] != "")
     {
-        file_put_contents($info[4]['Value']."/$rand/".$_POST['boxname'].".sma", stripslashes($_POST['boxcode']));
+        file_put_contents($info[4]['Value']."/$rand/".$_POST['boxname'].".sp", stripslashes($_POST['boxcode']));
     }
     else
     {
         switch (pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION))
         {
-            case "sma":
+            case "sp":
             {
                 move_uploaded_file($_FILES['file']['tmp_name'], $info[4]['Value']."/$rand/".$_FILES['file']['name']);
                 break;
@@ -145,7 +145,7 @@ if ($validated)
     
     
     
-    sqlite_exec($sql, "INSERT INTO compile VALUES('$rand', 'amxx', '{$_POST['ver']}', '".pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION)."');");
+    sqlite_exec($sql, "INSERT INTO compile VALUES('$rand', 'sm', '{$_POST['ver']}', '".pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION)."');");
 
     $curl = curl_init("http://".$_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME)."/compile.php?id=$rand");
     curl_exec($curl);
@@ -186,16 +186,16 @@ else
     $versions = "<select name=\"ver\">";
     $count = 0;
     
-    while ($count < count($amxx))
+    while ($count < count($sm))
     {
-        if ($amxx[$count]['Name'] == "" AND $count == 0)
+        if ($sm[$count]['Name'] == "" AND $count == 0)
             $versions .= "<option value=\".\" selected>N/A";
         else if ($count == 0)
-            $versions .= "<option value=\"{$amxx[$count]['Folder']}\" selected>{$amxx[$count]['Name']}";
-        else if ($amxx[$count]['Name'] == "")
+            $versions .= "<option value=\"{$sm[$count]['Folder']}\" selected>{$sm[$count]['Name']}";
+        else if ($sm[$count]['Name'] == "")
             break;
         else
-            $versions .= "<option value=\"{$amxx[$count]['Folder']}\">{$amxx[$count]['Name']}";
+            $versions .= "<option value=\"{$sm[$count]['Folder']}\">{$sm[$count]['Name']}";
         
         $count++;
     }
@@ -203,14 +203,14 @@ else
     $versions .= "</select>";
     
 ?>
-<form method="post" enctype="multipart/form-data" action="amxmodx.php">
+<form method="post" enctype="multipart/form-data" action="sourcemod.php">
 You can use this to compile plugins online.<br>
 Once you upload a file, you will receive the compiler output and a link to the compiled plugin.<br>
 <a href="https://github.com/yamikaitou/Supercentral-Compiler/wiki/Upload-Guide">Guide to understanding the Upload System</a><br>
 <br>
 Select the Compiler Version: <?php echo $versions; ?><br>
 <br>
-Select a file to upload (*.sma, *.zip, *.tar.gz ONLY):<br>
+Select a file to upload (*.sp, *.zip, *.tar.gz ONLY):<br>
 <input type="file" name="file"><br>
 <br>
 Or, you can paste your plugin's source code in the box below.<br>
