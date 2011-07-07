@@ -101,15 +101,35 @@ if (isset($_POST['submit']))
     if ($info[6]['Value'] != $_POST['ipbupload'])
         sqlite_exec($sql, "UPDATE info SET Value = '{$_POST['ipbupload']}' WHERE ID = 7");
     
-    sqlite_exec($sql, "DELETE FROM amxxversions");
+    sqlite_exec($sql, "UPDATE amxxversions SET Active = 0");
     $count = 0;
     while ($count < count($_POST['amxxver']))
-        sqlite_exec($sql, "INSERT INTO amxxversions VALUES (NULL, '". $_POST['amxxver'][$count] ."', '". $_POST['amxxfold'][$count] ."', '". $_POST['amxxorder'][$count++] ."')");
+    {
+        if (sqlite_num_rows(sqlite_query($sql, "SELECT * FROM amxxversions WHERE Folder = '{$_POST['amxxfold'][$count]}'")) == 1)
+            sqlite_exec($sql, "UPDATE amxxversions SET Active = 1, Display = {$_POST['amxxorder'][$count]} WHERE Folder = '{$_POST['amxxfold'][$count]}'");
+        else
+        {
+            sqlite_exec($sql, "INSERT INTO amxxversions VALUES (NULL, '{$_POST['amxxver'][$count]}', '{$_POST['amxxfold'][$count]}', {$_POST['amxxorder'][$count]}, 1)");
+            sqlite_exec($sql, "INSERT INTO stats VALUES (NULL, 'amxx', '{$_POST['amxxfold'][$count]}', 0, 0)");
+        }
+        
+        $count++;
+    }
     
-    sqlite_exec($sql, "DELETE FROM smversions");
+    sqlite_exec($sql, "UPDATE smversions SET Active = 0");
     $count = 0;
     while ($count < count($_POST['smver']))
-        sqlite_exec($sql, "INSERT INTO smversions VALUES (NULL, '". $_POST['smver'][$count] ."', '". $_POST['smfold'][$count] ."', '". $_POST['smorder'][$count++] ."')");
+    {
+        if (sqlite_num_rows(sqlite_query($sql, "SELECT * FROM smversions WHERE Folder = '{$_POST['smfold'][$count]}'")) == 1)
+            sqlite_exec($sql, "UPDATE smversions SET Active = 1, Display = {$_POST['smorder'][$count]} WHERE Folder = '{$_POST['smfold'][$count]}'");
+        else
+        {
+            sqlite_exec($sql, "INSERT INTO smversions VALUES (NULL, '{$_POST['smver'][$count]}', '{$_POST['smfold'][$count]}', {$_POST['smorder'][$count]}, 1)");
+            sqlite_exec($sql, "INSERT INTO stats VALUES (NULL, 'sm', '{$_POST['smfold'][$count]}', 0, 0)");
+        }
+        
+        $count++;
+    }
     
     
     $amxx_results = sqlite_query($sql, "SELECT * FROM amxxversions");
