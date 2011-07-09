@@ -21,7 +21,7 @@ function find_ver_in_array($array)
 <div class="link"><a href="index.html">Home</a></div>
 <div class="link"><a href="amxmodx.php">AMXModX</a></div>
 <div class="link"><a href="sourcemod.php">SourceMod</a></div>
-<div class="link"><a href="index.html">Stats</a></div>
+<div class="link"><a href="stats.php">Stats</a></div>
 </div>
 
 <div id="blueBox"> 
@@ -153,10 +153,12 @@ if ($validated)
     
     if (count(scandir($info[3]['Value']."/$rand"))&1)
     {
+        sqlite_exec($sql, "UPDATE stats SET Fail = Fail + 1 WHERE Program = 'amxx' AND Folder = '{$_POST['ver']}'");
         echo "Compile failed. See the compiler output below.<br><br>";
     }
     else
     {
+        sqlite_exec($sql, "UPDATE stats SET Success = Success + 1 WHERE Program = 'amxx' AND Folder = '{$_POST['ver']}'");
 ?>
 Use the link below to download your plugin. It will expire after 1 hour<br>
 <a href="http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>/download.php?id=<?php echo $rand; ?>">http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>/download.php?id=<?php echo $rand; ?></a><br>

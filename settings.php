@@ -61,8 +61,8 @@ function removeRowFromTable(comp, id)
 <div id="linkGroup">
 <div class="link"><a href="index.html">Home</a></div>
 <div class="link"><a href="amxmodx.php">AMXModX</a></div>
-<div class="link"><a href="index.html">SourceMod</a></div>
-<div class="link"><a href="index.html">Stats</a></div>
+<div class="link"><a href="sourcemod.php">SourceMod</a></div>
+<div class="link"><a href="stats.php">Stats</a></div>
 </div>
 
 <div id="blueBox"> 

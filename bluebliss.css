@@ -19,7 +19,7 @@ body
   font-size: 8pt; 
   font-family: Tahoma, Verdana, sans-serif; 
   color: #000000;
-  text-align: left;
+//  text-align: left;
 }
 
 
@@ -67,6 +67,11 @@ font-size:12px;
 font-weight:bold;
 }
 
+th
+{
+text-align:center;
+}
+
 #linkGroup
 {
 margin-right:10px;
@@ -96,6 +101,7 @@ margin-left:15px;
 margin-right:12px;
 margin-bottom:12px;
 width:573px;
+text-align:left;
 }
 
 .pageContent
@@ -106,6 +112,7 @@ font-size:12px;
 margin-left:20px;
 margin-right:20px;
 width:560px;
+text-align:left;
 }
 
 .alerterror
