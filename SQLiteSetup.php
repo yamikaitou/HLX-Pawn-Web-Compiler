@@ -17,7 +17,7 @@ if (!file_exists("configs/data"))
     sqlite_exec($sql, "INSERT INTO info VALUES(6, 'vBUpload', '.');");
     sqlite_exec($sql, "INSERT INTO info VALUES(7, 'IPBUpload', '.');");
     sqlite_exec($sql, "CREATE TABLE compile (ID INTEGER, Program TEXT, Version TEXT, Type TEXT)");
-    sqlite_exec($sql, "CREATE TABLE stats (ID INTEGER, Program TEXT, Folder TEXT, Success INTEGER, Fail INTEGER)");
+    sqlite_exec($sql, "CREATE TABLE stats (ID INTEGER PRIMARY KEY, Program TEXT, Folder TEXT, Success INTEGER, Fail INTEGER)");
     sqlite_close($sql);
     echo "Setup complete";
 }
