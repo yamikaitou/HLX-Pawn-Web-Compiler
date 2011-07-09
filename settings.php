@@ -103,10 +103,10 @@ if (isset($_POST['submit']))
     
     sqlite_exec($sql, "UPDATE amxxversions SET Active = 0");
     $count = 0;
-    while ($count < count($_POST['amxxver']))
+    while ($count < count($_POST['amxxfold']))
     {
         if (sqlite_num_rows(sqlite_query($sql, "SELECT * FROM amxxversions WHERE Folder = '{$_POST['amxxfold'][$count]}'")) == 1)
-            sqlite_exec($sql, "UPDATE amxxversions SET Active = 1, Display = {$_POST['amxxorder'][$count]} WHERE Folder = '{$_POST['amxxfold'][$count]}'");
+            sqlite_exec($sql, "UPDATE amxxversions SET Active = 1, Display = {$_POST['amxxorder'][$count]}, Name = '{$_POST['amxxver'][$count]}' WHERE Folder = '{$_POST['amxxfold'][$count]}'");
         else
         {
             sqlite_exec($sql, "INSERT INTO amxxversions VALUES (NULL, '{$_POST['amxxver'][$count]}', '{$_POST['amxxfold'][$count]}', {$_POST['amxxorder'][$count]}, 1)");
@@ -118,10 +118,10 @@ if (isset($_POST['submit']))
     
     sqlite_exec($sql, "UPDATE smversions SET Active = 0");
     $count = 0;
-    while ($count < count($_POST['smver']))
+    while ($count < count($_POST['smfold']))
     {
         if (sqlite_num_rows(sqlite_query($sql, "SELECT * FROM smversions WHERE Folder = '{$_POST['smfold'][$count]}'")) == 1)
-            sqlite_exec($sql, "UPDATE smversions SET Active = 1, Display = {$_POST['smorder'][$count]} WHERE Folder = '{$_POST['smfold'][$count]}'");
+            sqlite_exec($sql, "UPDATE smversions SET Active = 1, Display = {$_POST['smorder'][$count]}, Name = '{$_POST['smver'][$count]}' WHERE Folder = '{$_POST['smfold'][$count]}'");
         else
         {
             sqlite_exec($sql, "INSERT INTO smversions VALUES (NULL, '{$_POST['smver'][$count]}', '{$_POST['smfold'][$count]}', {$_POST['smorder'][$count]}, 1)");
