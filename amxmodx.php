@@ -1,11 +1,3 @@
-<?php
-
-function find_ver_in_array($array)
-{
-    return array_search($_POST['ver'], $array);
-}
-
-?>
 <html>
 <head>
 <title>SuperCentral - Compiler</title>
@@ -88,10 +80,21 @@ if (isset($_POST['compile']))
         }
     }
     
-    if (!(array_search(FALSE, array_map("find_ver_in_array", $amxx), TRUE) OR $_POST['ver'] == "."))
+    if ($_POST['ver'] != ".")
     {
-        echo "<div class=\"alerterror\">Unable to proceed, Compiler Version missing</div>";
-        $validated = FALSE;
+        $count = 0;
+        $temp = FALSE;
+        while ($count < count($amxx) AND !$temp)
+        {
+            if ($amxx[$count]['Folder'] == $_POST['ver'])
+                $temp = TRUE;
+        }
+        
+        if (!$temp)
+        {
+            echo "<div class=\"alerterror\">Unable to proceed, Compiler Version missing</div>";
+            $validated = FALSE;
+        }
     }
 }
 
@@ -146,7 +149,7 @@ if ($validated)
     
     
     sqlite_exec($sql, "INSERT INTO compile VALUES('$rand', 'amxx', '{$_POST['ver']}', '".pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION)."');");
-
+    
     $curl = curl_init("http://".$_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME)."/compile.php?id=$rand");
     curl_exec($curl);
     curl_close($curl);

@@ -1,11 +1,3 @@
-<?php
-
-function find_ver_in_array($array)
-{
-    return array_search($_POST['ver'], $array);
-}
-
-?>
 <html>
 <head>
 <title>SuperCentral - Compiler</title>
@@ -88,10 +80,21 @@ if (isset($_POST['compile']))
         }
     }
     
-    if (!(array_search(FALSE, array_map("find_ver_in_array", $sm), TRUE) OR $_POST['ver'] == "."))
+    if ($_POST['ver'] != ".")
     {
-        echo "<div class=\"alerterror\">Unable to proceed, Compiler Version missing</div>";
-        $validated = FALSE;
+        $count = 0;
+        $temp = FALSE;
+        while ($count < count($sm) AND !$temp)
+        {
+            if ($sm[$count]['Folder'] == $_POST['ver'])
+                $temp = TRUE;
+        }
+        
+        if (!$temp)
+        {
+            echo "<div class=\"alerterror\">Unable to proceed, Compiler Version missing</div>";
+            $validated = FALSE;
+        }
     }
 }
 
