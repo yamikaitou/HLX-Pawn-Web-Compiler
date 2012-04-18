@@ -73,7 +73,7 @@ switch (@$_GET['s'])
 		else
 			echo $general['vbupload']." <span class=\"error\">**DIR NOT FOUND**</span>";
 		
-		echo "<i><br/>
+		echo "</i><br/>
 		IPB Upload Path (optional): <i>";
 		if (is_dir($general['ipbupload']))
 			echo $general['ipbupload'];
