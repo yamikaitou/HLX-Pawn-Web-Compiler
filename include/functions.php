@@ -9,6 +9,7 @@ function _init($install=FALSE)
 	$dynamodb = array('access'=>NULL, 'secret'=>NULL, 'zone'=>NULL, 'prefix'=>NULL, 'suffix'=>NULL);
 	
 	require_once("config.php");
+	require_once("template.php");
 	
 	if (!$install) _init2();
 }
