@@ -10,10 +10,13 @@ function _init($install=FALSE)
 	
 	require_once("config.php");
 	
-	if ($install) break;
-	
+	if (!$install) _init2();
+}
+
+function _init2()
+{
 	require_once("sql.php");
-	sql_init();
+	
 }
 
 
