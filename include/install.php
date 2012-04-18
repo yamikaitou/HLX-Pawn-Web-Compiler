@@ -15,23 +15,23 @@ switch (@$_GET['s'])
 		<br/>
 		<b>General Settings</b><br/>
 		<br/>
-		<i>Web Settings Key</i>: **masked**<br/>
-		<i>Database Type</i>: ";
+		Web Settings Key: <i>**masked**</i><br/>
+		Database Type: ";
 		switch ($db_type)
 		{
 			case "sqlite":
 			{
-				echo "SQLite";
+				echo "<i>SQLite</i>";
 				break;
 			}
 			case "mysql":
 			{
-				echo "MySQL";
+				echo "<i>MySQL</i>";
 				break;
 			}
 			case "dynamodb":
 			{
-				echo "Amazon AWS DynamoDB";
+				echo "<i>Amazon AWS DynamoDB</i>";
 				break;
 			}
 			default:
@@ -39,48 +39,48 @@ switch (@$_GET['s'])
 		}
 		
 		echo "<br/>
-		<i>AMXModX Compiler Path</i>: ";
+		AMXModX Compiler Path: <i>";
 		if (is_dir($general['amxxcomp']))
 			echo $general['amxxcomp'];
 		else
 			echo $general['amxxcomp']." <span class=\"error\">**DIR NOT FOUND**</span>";
 		
-		echo "<br/>
-		<i>SourceMod Compiler Path</i>: ";
+		echo "</i><br/>
+		SourceMod Compiler Path: <i>";
 		if (is_dir($general['smcomp']))
 			echo $general['smcomp'];
 		else
 			echo $general['smcomp']." <span class=\"error\">**DIR NOT FOUND**</span>";
 		
-		echo "<br/>
-		<i>Compiled Files Storage Path</i>: ";
+		echo "</i><br/>
+		Compiled Files Storage Path: <i>";
 		if (is_dir($general['compiled']))
 			echo $general['compiled'];
 		else
 			echo $general['compiled']." <span class=\"error\">**DIR NOT FOUND**</span>";
 		
-		echo "<br/>
-		<i>Temporary Compiler Files Path</i>: ";
+		echo "</i><br/>
+		Temporary Compiler Files Path: <i>";
 		if (is_dir($general['temp']))
 			echo $general['temp'];
 		else
 			echo $general['temp']." <span class=\"error\">**DIR NOT FOUND**</span>";
 		
-		echo "<br/>
-		<i>vBulletin Upload Path (optional)</i>: ";
+		echo "</i><br/>
+		vBulletin Upload Path (optional): <i>";
 		if (is_dir($general['vbupload']))
 			echo $general['vbupload'];
 		else
 			echo $general['vbupload']." <span class=\"error\">**DIR NOT FOUND**</span>";
 		
-		echo "<br/>
-		<i>IPB Upload Path (optional)</i>: ";
+		echo "<i><br/>
+		IPB Upload Path (optional): <i>";
 		if (is_dir($general['ipbupload']))
 			echo $general['ipbupload'];
 		else
 			echo $general['ipbupload']." <span class=\"error\">**DIR NOT FOUND**</span>";
 		
-		echo "<br/>
+		echo "</i><br/>
 		<br/>
 		<b>Database Settings</b><br/>
 		<br/>
@@ -91,27 +91,27 @@ switch (@$_GET['s'])
 			case "sqlite":
 			{
 				echo "Using SQLite<br/>
-				<i>Database Location</i>: {$sqlite['db']}<br/>";
+				Database Location: <i>{$sqlite['db']}</i><br/>";
 				break;
 			}
 			case "mysql":
 			{
 				echo "Using MySQL<br/>
-				<i>Server</i>: {$mysql['server']}<br/>
-				<i>Username</i>: {$mysql['user']}<br/>
-				<i>Password</i>: **masked**<br/>
-				<i>Database</i>: {$mysql['db']}<br/>
-				<i>Table Prefix</i>: {$mysql['prefix']}<br/>";
+				Server: <i>{$mysql['server']}</i><br/>
+				Username: <i>{$mysql['user']}</i><br/>
+				Password: <i>**masked**</i><br/>
+				Database: <i>{$mysql['db']}</i><br/>
+				Table Prefix: <i>{$mysql['prefix']}</i><br/>";
 				break;
 			}
 			case "dynamodb":
 			{
 				echo "Using Amazon AWS DynamoDB<br/>
-				<i>Access Key ID</i>: {$dynamodb['access']}<br/>
-				<i>Secret Access Key</i>: **masked**<br/>
-				<i>Availability Zone</i>: {$dynamodb['zone']}<br/>
-				<i>Table Prefix</i>: {$dynamodb['prefix']}<br/>
-				<i>Table Suffix</i>: {$dynamodb['suffix']}<br/>";
+				Access Key ID: <i>{$dynamodb['access']}</i><br/>
+				Secret Access Key: <i>**masked**</i><br/>
+				Availability Zone: <i>{$dynamodb['zone']}</i><br/>
+				Table Prefix: <i>{$dynamodb['prefix']}</i><br/>
+				Table Suffix: <i>{$dynamodb['suffix']}</i><br/>";
 				break;
 			}
 			default:
