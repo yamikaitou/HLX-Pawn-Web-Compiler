@@ -6,7 +6,7 @@ require_once("sql.php");
 
 style_top("Installation Process");
 
-@switch ($_GET['s'])
+switch (@$_GET['s'])
 {
 	default:
 	case 0:
