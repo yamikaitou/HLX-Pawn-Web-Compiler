@@ -9,7 +9,7 @@ style_top("Installation Process");
 switch (@$_GET['s'])
 {
 	default:
-	case 0:
+	case 1:
 	{
 		echo "Displaying configuration details from the include/config.php file<br/>
 		<br/>
@@ -73,6 +73,7 @@ switch (@$_GET['s'])
 			echo $general['ipbupload']." <span class=\"error\">**DIR NOT FOUND**</span>";
 		
 		echo "<br/>
+		<br/>
 		Database Settings<br/>
 		<br/>
 		";
@@ -103,14 +104,15 @@ switch (@$_GET['s'])
 				Table Suffix: {$dynamodb['suffix']}<br/>";
 			}
 			default:
-				echo "<span class=\"error\">Unknown Database Type!!!</span>";
+				echo "<span class=\"error\">Unknown Database Type!!!</span><br/>";
 		}
 		
 		echo "
+		<br/>
 		Passwords were masked for your protection. Please verify the settings above are correct.<br/>
 		<br/>
 		If all settings are correct, please click the button below<br/>
-		<form action=\"install.php\" method=\"get\"><input type=\"submit\" name=\"s\" value=\"1\"></form><br/>";
+		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"1\"><input type=\"submit\" value=\"Proceed to Step 2\"></form><br/>";
 		
 	}
 
