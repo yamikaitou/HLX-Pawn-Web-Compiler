@@ -24,7 +24,7 @@ function style_top($title)
 <div id="blueBox"> 
 <div id="header"></div>
 <div class="contentTitle"><?php echo $title; ?></div>
-<div class="pageContent">
+<div class="pageContent"><br/>
 <?php
 }
 

@@ -1,7 +1,6 @@
 <?php
 
 require_once("functions.php");
-_init(TRUE);
 require_once("sql.php");
 
 style_top("Installation Process");
