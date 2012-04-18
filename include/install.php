@@ -110,7 +110,7 @@ switch (@$_GET['s'])
 		Passwords were masked for your protection. Please verify the settings above are correct.<br/>
 		<br/>
 		If all settings are correct, please click the button below<br/>
-		<form action=\"install.php\" method=\"get\"><input type=\"submit\" name=\"s\" value=\"1\"></form><br/>"
+		<form action=\"install.php\" method=\"get\"><input type=\"submit\" name=\"s\" value=\"1\"></form><br/>";
 		
 	}
 
