@@ -162,7 +162,10 @@ text-decoration:none;
 margin-top:25px;
 }
 
-
+.error
+{
+color:#FF0000;
+}
 
 html, body {
 text-align: center;

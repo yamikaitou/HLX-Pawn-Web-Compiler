@@ -6,7 +6,7 @@
 //   Does not grant access to any of the settings found in this file
 $general['key'] = "NHzwGmAggt3e";
 // AMXModX Compiler Location
-//    Location where all the usable compilers are stored, must be absolute path
+//   Location where all the usable compilers are stored, must be absolute path
 $general['amxxcomp'] = "/home/user/compilers/amxx";
 // SourceMod Compiler Location
 //   Location where all the usable compilers are stored, must be absolute path
@@ -24,15 +24,16 @@ $general['vbupload'] = "";
 //   Location where the IPB Uploads are stored, optional
 $general['ipbupload'] = "";
 // The Database type.
-//  sqlite = Uses SQLite. This is the default, database is stored locally, no username/password required
-//	mysql = Uses MySQL. Use either a local or remote MySQL server.
-//	dynamodb = Uses Amazon AWS DynamoDB. You must already have an Amazon AWS account, you are responsible for all charges
+//   sqlite = Uses SQLite. This is the default, database is stored locally, no username/password required
+//   mysql = Uses MySQL. Use either a local or remote MySQL server.
+//   dynamodb = Uses Amazon AWS DynamoDB. You must already have an Amazon AWS account, you are responsible for all charges
 $db_type = "sqlite";
 
 
 /* SQLite Settings */
-// The location of where to save the SQLite database. If location doesn't exist, it will be created.
-$sqlite['db'] = "configs/data";
+// The location of where to save the SQLite database. Relative to the configs directory, or absolute path.
+// Database will be created if it doesn't exist, directories will not.
+$sqlite['db'] = "data.sqlite";
 
 
 /* MySQL Settings */
@@ -49,8 +50,8 @@ $mysql['prefix'] = "";
 
 
 /* Amazon DynamoDB Settings 
-	Caution: You are responsible for any and all charges you incur by using this method.
-	The tables are required to be unique, recommend setting a prefix and/or suffix or using the random feature */
+   Caution: You are responsible for any and all charges you incur by using this method.
+   The tables are required to be unique, recommend setting a prefix and/or suffix */
 // Access Key ID
 $dynamodb['access'] = "accessid";
 // Secret Access Key
@@ -62,14 +63,6 @@ $dynamodb['zone'] = "us-east-1";
 $dynamodb['prefix'] = "";
 // Table Suffix
 $dynamodb['suffix'] = "";
-// Table Prefix/Suffix Randomizer
-//  Bit Value, add the ones you want
-//    0 = No Randomizer
-//    1 = Randomize Prefix
-//    2 = Randomize Suffix
-$dynamodb['fixrandom'] = 0;
-// Randomizer Length
-//   The number of characters to use for the above randomizer
-$dynamodb['randomlen'] = 0;
+
 
 ?>
