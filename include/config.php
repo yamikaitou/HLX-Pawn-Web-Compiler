@@ -52,10 +52,8 @@ $mysql['prefix'] = "";
 /* Amazon DynamoDB Settings 
    Caution: You are responsible for any and all charges you incur by using this method.
    The tables are required to be unique, recommend setting a prefix and/or suffix */
-// Access Key ID
-$dynamodb['access'] = "accessid";
-// Secret Access Key
-$dynamodb['secret'] = "secretid";
+// AWS SDK for PHP Path, relative or absolute
+$dynamodb['sdk'] = "awssdkforphp";
 // Availability Zone
 //	Values: us-east-1, ap-northeast-1, eu-west-1
 $dynamodb['zone'] = "us-east-1";
