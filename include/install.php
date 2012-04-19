@@ -186,6 +186,8 @@ switch (@$_GET['s'])
 			echo "<span class=\"error\">Warning: IPB Upload Path not found!</span><br/>";
 		}
 		
+		echo "<br/>";
+		
 		switch ($db_type)
 		{
 			case "sqlite":
@@ -246,12 +248,13 @@ switch (@$_GET['s'])
 					echo "<span class=\"error\">Error: Availability Zone is incorrect!</span><br/>";
 				}
 				
-				echo "<br/>Warning: The AWS SDK is not shipped with this script! Nor is it configured by this script!<br/>
+				echo "<br/><span class=\"error\">Warning</span>: The AWS SDK is not shipped with this script nor is it configured by this script!<br/>
 				You can download the SDK by visiting <a href=\"http://aws.amazon.com/sdkforphp\">http://aws.amazon.com/sdkforphp</a>.<br/>
-				The Access Key and Secret Key are read from the AWS SDK's config file, make sure you have set it up.<br/>
-				Amazon AWS compatibility is not tested by this script.<br/>
+				The AWS SDK's config file is used by this script, make sure you have set it up correctly.<br/>
+				This script does not test your host's compatibility with the AWS SDK.<br/>
 				If you want to test it, download <a href=\"https://raw.github.com/amazonwebservices/aws-sdk-for-php/master/_compatibility_test/sdk_compatibility_test.php\">this file</a> or look in the '_compatibility_test' folder of the SDK.<br/>
-				It will test your setup and tell you what needs to be corrected in order to use the SDK.<br/>";
+				It will test your setup and tell you what needs to be corrected in order to use the SDK.<br/>
+				It is recommended that you do not use the CLI test script as your Host may have a different PHP binary configured for the site.<br/>";
 								
 				break;
 			}
@@ -276,7 +279,8 @@ switch (@$_GET['s'])
 			break;
 		}
 		
-		echo "<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"3\"><br/>
+		echo "All Good? Click the button to proceed to Step 3<br/>
+		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"3\"><br/>
 		<input type=\"submit\" value\"Proceed to Step 3\"></form><br/>";
 		
 		break;
