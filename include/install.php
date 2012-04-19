@@ -123,7 +123,8 @@ switch (@$_GET['s'])
 		Passwords were masked for your protection. Please verify the settings above are correct.<br/>
 		<br/>
 		If all settings are correct, please click the button below<br/>
-		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"1\"><input type=\"submit\" value=\"Proceed to Step 2\"></form><br/>";
+		<br/>
+		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"2\"><input type=\"submit\" value=\"Proceed to Step 2\"></form><br/>";
 		
 		break;
 	}
@@ -205,7 +206,7 @@ switch (@$_GET['s'])
 			}
 			case "mysql":
 			{
-				if (!extension_loaded("mysql") && !extension_loaded("mysqli"))
+				if (!extension_loaded("mysql") AND !extension_loaded("mysqli"))
 				{
 					$error = TRUE;
 					echo "<span class=\"error\">Error: MySQL Extension is not loaded!</span><br/>";
@@ -239,15 +240,18 @@ switch (@$_GET['s'])
 					echo "<span class=\"error\">Warning: DynamoDB Table Prefix and/or Suffix are blank!</span><br/>";
 				}
 				
-				if ($dynamodb['zone'] == "us-east-1" OR $dynamodb['zone'] == "eu-west-1" OR $dynamodb['zone'] == "ap-northeast-1")
+				if ($dynamodb['zone'] == "us-east-1" AND $dynamodb['zone'] == "eu-west-1" AND $dynamodb['zone'] == "ap-northeast-1")
 				{
 					$error = TRUE;
 					echo "<span class=\"error\">Error: Availability Zone is incorrect!</span><br/>";
 				}
 				
-				echo "Warning: You must download the AWS SDK for PHP seperatly, it is not distributed with this script. You can do so by visiting <a href=\"http://aws.amazon.com/sdkforphp\">http://aws.amazon.com/sdkforphp</a>.<br/>
-				Warning: The Access Key and Secret Key are read from the AWS SDK's config file, make sure you have set it up.<br/>
-				Warning: Amazon AWS compatibility is not tested. If you want to test it, download <a href=\"https://raw.github.com/amazonwebservices/aws-sdk-for-php/master/_compatibility_test/sdk_compatibility_test.php\">this file</a> and view it. It will let you know what is missing and what is recommended.<br/>";
+				echo "<br/>Warning: The AWS SDK is not shipped with this script! Nor is it configured by this script!<br/>
+				You can download the SDK by visiting <a href=\"http://aws.amazon.com/sdkforphp\">http://aws.amazon.com/sdkforphp</a>.<br/>
+				The Access Key and Secret Key are read from the AWS SDK's config file, make sure you have set it up.<br/>
+				Amazon AWS compatibility is not tested by this script.<br/>
+				If you want to test it, download <a href=\"https://raw.github.com/amazonwebservices/aws-sdk-for-php/master/_compatibility_test/sdk_compatibility_test.php\">this file</a> or look in the '_compatibility_test' folder of the SDK.<br/>
+				It will test your setup and tell you what needs to be corrected in order to use the SDK.<br/>";
 								
 				break;
 			}
