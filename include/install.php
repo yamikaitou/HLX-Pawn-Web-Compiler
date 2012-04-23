@@ -30,11 +30,6 @@ switch (@$_GET['s'])
 				echo "<i>MySQL</i>";
 				break;
 			}
-			case "dynamodb":
-			{
-				echo "<i>Amazon AWS DynamoDB</i>";
-				break;
-			}
 			default:
 				echo "<span class=\"error\">Unknown Database Type, valid options are 'sqlite', 'mysql', or 'dynamodb'</span>";
 		}
@@ -103,15 +98,6 @@ switch (@$_GET['s'])
 				Password: <i>**masked**</i><br/>
 				Database: <i>{$mysql['db']}</i><br/>
 				Table Prefix: <i>{$mysql['prefix']}</i><br/>";
-				break;
-			}
-			case "dynamodb":
-			{
-				echo "Using Amazon AWS DynamoDB<br/>
-				AWS SDK for PHP Path: <i>{$dynamodb['sdk']}</i><br/>
-				Availability Zone: <i>{$dynamodb['zone']}</i><br/>
-				Table Prefix: <i>{$dynamodb['prefix']}</i><br/>
-				Table Suffix: <i>{$dynamodb['suffix']}</i><br/>";
 				break;
 			}
 			default:
@@ -226,36 +212,6 @@ switch (@$_GET['s'])
 					echo "<span class=\"error\">Warning: MySQL Password is blank!</span><br/>";
 				}
 				
-				break;
-			}
-			case "dynamodb":
-			{
-				if (!is_dir($dynamodb['sdk']) OR !file_exists($dynamodb['sdk']."sdk.class.php"))
-				{
-					$error = TRUE;
-					echo "<span class=\"error\">Error: Missing AWS SDK for PHP and/or File 'sdk.class.php' not found in configured path!</span><br/>";
-				}
-				
-				if ($dynamodb['prefix'] == "" OR $dynamodb['suffix'] == "")
-				{
-					$warning = TRUE;
-					echo "<span class=\"error\">Warning: DynamoDB Table Prefix and/or Suffix are blank!</span><br/>";
-				}
-				
-				if ($dynamodb['zone'] == "us-east-1" AND $dynamodb['zone'] == "eu-west-1" AND $dynamodb['zone'] == "ap-northeast-1")
-				{
-					$error = TRUE;
-					echo "<span class=\"error\">Error: Availability Zone is incorrect!</span><br/>";
-				}
-				
-				echo "<br/><span class=\"error\">Warning</span>: The AWS SDK is not shipped with this script nor is it configured by this script!<br/>
-				You can download the SDK by visiting <a href=\"http://aws.amazon.com/sdkforphp\">http://aws.amazon.com/sdkforphp</a>.<br/>
-				The AWS SDK's config file is used by this script, make sure you have set it up correctly.<br/>
-				This script does not test your host's compatibility with the AWS SDK.<br/>
-				If you want to test it, download <a href=\"https://raw.github.com/amazonwebservices/aws-sdk-for-php/master/_compatibility_test/sdk_compatibility_test.php\">this file</a> or look in the '_compatibility_test' folder of the SDK.<br/>
-				It will test your setup and tell you what needs to be corrected in order to use the SDK.<br/>
-				It is recommended that you do not use the CLI test script as your Host may have a different PHP binary configured for the site.<br/>";
-								
 				break;
 			}
 			default:

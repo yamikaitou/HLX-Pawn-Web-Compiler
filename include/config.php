@@ -26,7 +26,6 @@ $general['ipbupload'] = "";
 // The Database type.
 //   sqlite = Uses SQLite. This is the default, database is stored locally, no username/password required
 //   mysql = Uses MySQL. Use either a local or remote MySQL server.
-//   dynamodb = Uses Amazon AWS DynamoDB. You must already have an Amazon AWS account, you are responsible for all charges
 $db_type = "sqlite";
 
 
@@ -47,20 +46,6 @@ $mysql['pass'] = "";
 $mysql['db'] = "compiler";
 // Table Prefix
 $mysql['prefix'] = "";
-
-
-/* Amazon DynamoDB Settings 
-   Caution: You are responsible for any and all charges you incur by using this method.
-   The tables are required to be unique, recommend setting a prefix and/or suffix */
-// AWS SDK for PHP Path, relative or absolute
-$dynamodb['sdk'] = "awssdkforphp";
-// Availability Zone
-//	Values: us-east-1, ap-northeast-1, eu-west-1
-$dynamodb['zone'] = "us-east-1";
-// Table Prefix
-$dynamodb['prefix'] = "";
-// Table Suffix
-$dynamodb['suffix'] = "";
 
 
 ?>
