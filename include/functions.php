@@ -7,11 +7,14 @@ $mysql = array('server'=>NULL, 'user'=>NULL, 'pass'=>NULL, 'db'=>NULL, 'prefix'=
 
 require_once("config.php");
 require_once("template.php");
+require_once("sql.php");
+
 
 
 function _init()
 {
-	require_once("sql.php");
+	
+
 	
 }
 

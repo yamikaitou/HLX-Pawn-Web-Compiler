@@ -178,10 +178,10 @@ switch (@$_GET['s'])
 		{
 			case "sqlite":
 			{
-				if (!extension_loaded("sqlite") AND !extension_loaded("sqlite3"))
+				if (!extension_loaded("sqlite3"))
 				{
 					$error = TRUE;
-					echo "<span class=\"error\">Error: SQLite Extension is not loaded!</span><br/>";
+					echo "<span class=\"error\">Error: SQLite3 Extension is not loaded!</span><br/>";
 				}
 				
 				if (file_exists($sqlite['db']))
@@ -194,10 +194,10 @@ switch (@$_GET['s'])
 			}
 			case "mysql":
 			{
-				if (!extension_loaded("mysql") AND !extension_loaded("mysqli"))
+				if (!extension_loaded("mysqli"))
 				{
 					$error = TRUE;
-					echo "<span class=\"error\">Error: MySQL Extension is not loaded!</span><br/>";
+					echo "<span class=\"error\">Error: MySQLi Extension is not loaded!</span><br/>";
 				}
 				
 				if ($mysql['server'] == "" OR $mysql['user'] == "" OR $mysql['db'] == "")
@@ -235,15 +235,85 @@ switch (@$_GET['s'])
 			break;
 		}
 		
-		echo "All Good? Click the button to proceed to Step 3<br/>
+		echo "<br/>
+		All Good? Click the button to proceed to Step 3<br/>
 		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"3\"><br/>
-		<input type=\"submit\" value\"Proceed to Step 3\"></form><br/>";
+		<input type=\"submit\" value=\"Proceed to Step 3\"></form><br/>";
 		
 		break;
 	}
 	case 3:
 	{
+		echo "Install - Step 3<br/>
+		Setting up SQL... ";
+		
+		if (!sql_install())
+		{
+			echo "<span class=\"error\">Error</span>, check logs";
+			break;
+		}
+		else
+			echo "Done";
+		
+		echo "<br/>
+		Click the button to proceed to Step 4<br/>
+		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"4\"><br/>
+		<input type=\"submit\" value=\"Proceed to Step 4\"></form><br/>";
+		
+		break;
+	}
+	case 4:
+	{
+		echo "Install - Step 4<br/>
+		Setup Compiler Versions<br/>";
+		
+		echo "<br/>
+		<table id=\"amxx\">
+		<tr><th colspan=\"4\">AMX Mod X Compiler Versions</th></tr>
+		<tr><td>Version</td><td>Folder</td><td>Order</td><td></td></tr>
+		";
+		
+		$amxxdir = @scandir($general['amxxcomp']);
 	
+		if(!empty($amxxdir))
+		{
+			foreach($lists as $f)
+			{
+				if(is_dir($path."/".$f) && $f != ".." && $f != ".")
+				{
+					echo "<tr><td><input type=\"text\" name=\"amxxver[]\" id=\"amxxver1\" value=\"\"></td><td><input type=\"text\" name=\"amxxfold[]\" id=\"amxxfold1\" value=\"$f\"></td><td><input type=\"text\" name=\"amxxorder[]\" id=\"amxxorder1\" value=\"\"></td><td><input type=\"checkbox\" name=\"amxxactive[]\">Active?</td></tr>";
+				}
+			}
+		}
+		echo "</table><br/>";
+		
+		echo "<br/>
+		<table id=\"sm\">
+		<tr><th colspan=\"4\">Source Mod Compiler Versions</th></tr>
+		<tr><td>Version</td><td>Folder</td><td>Order</td><td></td></tr>
+		";
+		
+		$smdir = @scandir($general['smcomp']);
+	
+		if(!empty($smdir))
+		{
+			foreach($lists as $f)
+			{
+				if(is_dir($path."/".$f) && $f != ".." && $f != ".")
+				{
+					echo "<tr><td><input type=\"text\" name=\"smver[]\" id=\"smver1\" value=\"\"></td><td><input type=\"text\" name=\"smfold[]\" id=\"smfold1\" value=\"$f\"></td><td><input type=\"text\" name=\"smorder[]\" id=\"smorder1\" value=\"\"></td><td><input type=\"checkbox\" name=\"smactive[]\">Active?</td></tr>";
+				}
+			}
+		}
+		echo "</table><br/>";
+		
+		echo "<br/>
+		All Good? Click the button to proceed to Step 5<br/>
+		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"5\"><br/>
+		<input type=\"submit\" value=\"Proceed to Step 5\"></form><br/>";
+		
+		
+		break;
 	}
 }
 
