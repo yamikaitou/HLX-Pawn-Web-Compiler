@@ -11,12 +11,11 @@ function sql_install()
 	
 	_sql_init();
 	
-	$sql->create("amxxversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER')) OR return FALSE;
-	$sql->create("smversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER')) OR return FALSE;
-	$sql->create("compile", array('Program' => 'TEXT', 'VerID' => 'TEXT')) OR return FALSE;
-	$sql->create("stats", array('Program' => 'TEXT', 'VerID' => 'INTEGER', 'Success' => 'INTEGER', 'Failure' => 'INTEGER')) OR return FALSE;
+	$sql->create("amxxversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER'));
+	$sql->create("smversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER'));
+	$sql->create("compile", array('Program' => 'TEXT', 'VerID' => 'TEXT'));
+	$sql->create("stats", array('Program' => 'TEXT', 'VerID' => 'INTEGER', 'Success' => 'INTEGER', 'Failure' => 'INTEGER'));
 	
-	return TRUE;
 }
 
 function _sql_init()

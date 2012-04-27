@@ -245,15 +245,9 @@ switch (@$_GET['s'])
 	case 3:
 	{
 		echo "Install - Step 3<br/>
-		Setting up SQL... ";
+		Setting up SQL...<br/>";
 		
-		if (!sql_install())
-		{
-			echo "<span class=\"error\">Error</span>, check logs";
-			break;
-		}
-		else
-			echo "Done";
+		sql_install();
 		
 		echo "<br/>
 		Click the button to proceed to Step 4<br/>
