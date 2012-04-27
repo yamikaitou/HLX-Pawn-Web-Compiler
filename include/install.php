@@ -1,11 +1,10 @@
 <?php
 
 require_once("functions.php");
-require_once("sql.php");
 
 style_top("Installation Process");
 
-switch (@$_GET['s'])
+switch (@$_POST['s'])
 {
 	default:
 	case 1:
@@ -110,7 +109,7 @@ switch (@$_GET['s'])
 		<br/>
 		If all settings are correct, please click the button below<br/>
 		<br/>
-		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"2\"><input type=\"submit\" value=\"Proceed to Step 2\"></form><br/>";
+		<form action=\"install.php\" method=\"post\"><input type=\"hidden\" name=\"s\" value=\"2\"><input type=\"submit\" value=\"Proceed to Step 2\"></form><br/>";
 		
 		break;
 	}
@@ -237,7 +236,7 @@ switch (@$_GET['s'])
 		
 		echo "<br/>
 		All Good? Click the button to proceed to Step 3<br/>
-		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"3\"><br/>
+		<form action=\"install.php\" method=\"post\"><input type=\"hidden\" name=\"s\" value=\"3\"><br/>
 		<input type=\"submit\" value=\"Proceed to Step 3\"></form><br/>";
 		
 		break;
@@ -247,11 +246,16 @@ switch (@$_GET['s'])
 		echo "Install - Step 3<br/>
 		Setting up SQL...<br/>";
 		
-		sql_install();
+		_sql_init();
+		
+		$sql->create("amxxversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER'));
+		$sql->create("smversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER'));
+		$sql->create("compile", array('Program' => 'TEXT', 'VerID' => 'TEXT'));
+		$sql->create("stats", array('Program' => 'TEXT', 'VerID' => 'INTEGER', 'Success' => 'INTEGER', 'Failure' => 'INTEGER'));
 		
 		echo "<br/>
 		Click the button to proceed to Step 4<br/>
-		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"4\"><br/>
+		<form action=\"install.php\" method=\"post\"><input type=\"hidden\" name=\"s\" value=\"4\"><br/>
 		<input type=\"submit\" value=\"Proceed to Step 4\"></form><br/>";
 		
 		break;
@@ -261,10 +265,10 @@ switch (@$_GET['s'])
 		echo "Install - Step 4<br/>
 		Setup Compiler Versions<br/>";
 		
-		echo "<br/>
+		echo "<br/><form action=\"install.php\" method=\"post\">
 		<table id=\"amxx\">
 		<tr><th colspan=\"4\">AMX Mod X Compiler Versions</th></tr>
-		<tr><td>Version</td><td>Folder</td><td>Order</td><td></td></tr>
+		<tr><td>Version</td><td>Folder</td><td>Order</td><td>Active?</td></tr>
 		";
 		
 		$amxxdir = @scandir($general['amxxcomp']);
@@ -273,9 +277,9 @@ switch (@$_GET['s'])
 		{
 			foreach($amxxdir as $f)
 			{
-				if(is_dir($path."/".$f) && $f != ".." && $f != ".")
+				if(is_dir($general['amxxcomp']."/".$f) && $f != ".." && $f != ".")
 				{
-					echo "<tr><td><input type=\"text\" name=\"amxxver[]\" id=\"amxxver1\" value=\"\"></td><td><input type=\"text\" name=\"amxxfold[]\" id=\"amxxfold1\" value=\"$f\"></td><td><input type=\"text\" name=\"amxxorder[]\" id=\"amxxorder1\" value=\"\"></td><td><input type=\"checkbox\" name=\"amxxactive[]\">Active?</td></tr>";
+					echo "<tr><td><input type=\"text\" name=\"amxxver[]\" id=\"amxxver1\" value=\"\"></td><td><input type=\"text\" name=\"amxxfold[]\" id=\"amxxfold1\" value=\"$f\"></td><td><input type=\"text\" name=\"amxxorder[]\" id=\"amxxorder1\" value=\"\"></td><td><input type=\"checkbox\" name=\"amxxactive[]\"></td></tr>";
 				}
 			}
 		}
@@ -293,7 +297,7 @@ switch (@$_GET['s'])
 		{
 			foreach($smdir as $f)
 			{
-				if(is_dir($path."/".$f) && $f != ".." && $f != ".")
+				if(is_dir($general['smcomp']."/".$f) && $f != ".." && $f != ".")
 				{
 					echo "<tr><td><input type=\"text\" name=\"smver[]\" id=\"smver1\" value=\"\"></td><td><input type=\"text\" name=\"smfold[]\" id=\"smfold1\" value=\"$f\"></td><td><input type=\"text\" name=\"smorder[]\" id=\"smorder1\" value=\"\"></td><td><input type=\"checkbox\" name=\"smactive[]\">Active?</td></tr>";
 				}
@@ -303,9 +307,35 @@ switch (@$_GET['s'])
 		
 		echo "<br/>
 		All Good? Click the button to proceed to Step 5<br/>
-		<form action=\"install.php\" method=\"get\"><input type=\"hidden\" name=\"s\" value=\"5\"><br/>
+		<input type=\"hidden\" name=\"s\" value=\"5\"><br/>
 		<input type=\"submit\" value=\"Proceed to Step 5\"></form><br/>";
 		
+		
+		break;
+	}
+	case 5:
+	{
+		_sql_init();
+		
+		echo "Install - Step 5<br/>
+		<br/>";
+		
+		
+		for ($k = 0; $k < count($_POST['amxxfold']); $k++)
+		{
+			$sql->insert("amxxversions", array("Name" => $_POST['amxxver'][$k], "Folder" => $_POST['amxxfold'][$k], "Display" => $_POST['amxxorder'][$k], "Active" => $_POST['amxxactive'][$k]));
+			$sql->insert("stats", array("Program" => "amxx", "VerID" => $k, "Success" => 0, "Failure" => 0);
+		}
+		
+		for ($k = 0; $k < count($_POST['smfold']); $k++)
+		{
+			$sql->insert("smversions", array("Name" => $_POST['smver'][$k], "Folder" => $_POST['smfold'][$k], "Display" => $_POST['smorder'][$k], "Active" => $_POST['smactive'][$k]));
+			$sql->insert("stats", array("Program" => "sm", "VerID" => $k, "Success" => 0, "Failure" => 0);
+		}
+		
+		echo "Installation Complete<br/>";
+		
+		unlink("install.php");
 		
 		break;
 	}

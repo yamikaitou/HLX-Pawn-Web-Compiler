@@ -12,9 +12,28 @@ class DB_SQLite extends SQLite3
 		$str = "";
 		
 		foreach ($args as $f => $v)
-			$str .= ", $f $v";
+			$str .= "$f $v, ";
 		
-		return $this->exec("CREATE TABLE $table (ID INTEGER PRIMARY KEY$str);");
+		rtrim($str, ",");
+		
+		return $this->exec("CREATE TABLE $table (ID INTEGER PRIMARY KEY, $str);");
+	}
+	
+	function insert($table, $args)
+	{
+		$fields = "";
+		$values = "";
+		
+		foreach ($args as $f => $v)
+		{
+			$fields .= "$f, ";
+			$values .= "'$v', ";
+		}
+		
+		rtrim($fields, ",");
+		rtrim($values, ",");
+		
+		return $this->exec("INSERT INTO $table ($fields) VALUES ($values);");
 	}
 }
 

@@ -23,6 +23,24 @@ class DB_MySQL extends mysqli
 		
 		return $this->exec("CREATE TABLE $prefix$table (ID INTEGER PRIMARY KEY$str);");
 	}
+	
+	function insert($table, $args)
+	{
+		$fields = "";
+		$values = "";
+		
+		foreach ($args as $f => $v)
+		{
+			$fields .= "$f, ";
+			$values .= "'$v', ";
+		}
+		
+		rtrim($fields, ",");
+		rtrim($values, ",");
+		
+		return $this->exec("INSERT INTO $prefix$table ($fields) VALUES ($values);");
+	}
+	
 }
 
 ?>
