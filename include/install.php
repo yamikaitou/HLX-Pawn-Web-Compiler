@@ -178,7 +178,7 @@ switch (@$_GET['s'])
 		{
 			case "sqlite":
 			{
-				if (!extension_loaded("sqlite"))
+				if (!extension_loaded("sqlite") AND !extension_loaded("sqlite3"))
 				{
 					$error = TRUE;
 					echo "<span class=\"error\">Error: SQLite Extension is not loaded!</span><br/>";
@@ -241,7 +241,10 @@ switch (@$_GET['s'])
 		
 		break;
 	}
-
+	case 3:
+	{
+	
+	}
 }
 
 style_bot();
