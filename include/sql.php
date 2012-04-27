@@ -29,7 +29,7 @@ function _sql_init()
 	{
 		case "sqlite":
 		{
-			$sql = new DB_SQLite3($sqlite['db']);
+			$sql = new DB_SQLite($sqlite['db']);
 			
 			break;
 		}
