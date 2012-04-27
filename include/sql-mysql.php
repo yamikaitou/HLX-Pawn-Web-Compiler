@@ -19,9 +19,11 @@ class DB_MySQL extends mysqli
 		$str = "";
 		
 		foreach ($args as $f => $v)
-			$str .= ", $f $v";
+			$str .= "$f $v, ";
 		
-		return $this->exec("CREATE TABLE $prefix$table (ID INTEGER PRIMARY KEY$str);");
+		rtrim($str, ", ");
+		
+		return $this->exec("CREATE TABLE $prefix$table (ID INTEGER PRIMARY KEY, $str);");
 	}
 	
 	function insert($table, $args)
@@ -35,8 +37,8 @@ class DB_MySQL extends mysqli
 			$values .= "'$v', ";
 		}
 		
-		rtrim($fields, ",");
-		rtrim($values, ",");
+		rtrim($fields, ", ");
+		rtrim($values, ", ");
 		
 		return $this->exec("INSERT INTO $prefix$table ($fields) VALUES ($values);");
 	}

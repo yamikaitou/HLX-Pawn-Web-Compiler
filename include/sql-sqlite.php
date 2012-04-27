@@ -14,7 +14,8 @@ class DB_SQLite extends SQLite3
 		foreach ($args as $f => $v)
 			$str .= "$f $v, ";
 		
-		rtrim($str, ",");
+		
+		$str = rtrim($str, ", ");
 		
 		return $this->exec("CREATE TABLE $table (ID INTEGER PRIMARY KEY, $str);");
 	}
@@ -30,8 +31,9 @@ class DB_SQLite extends SQLite3
 			$values .= "'$v', ";
 		}
 		
-		rtrim($fields, ",");
-		rtrim($values, ",");
+		
+		$fields = rtrim($fields, ", ");
+		$values = rtrim($values, ", ");
 		
 		return $this->exec("INSERT INTO $table ($fields) VALUES ($values);");
 	}
