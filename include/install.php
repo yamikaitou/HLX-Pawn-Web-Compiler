@@ -271,7 +271,7 @@ switch (@$_GET['s'])
 	
 		if(!empty($amxxdir))
 		{
-			foreach($lists as $f)
+			foreach($amxxdir as $f)
 			{
 				if(is_dir($path."/".$f) && $f != ".." && $f != ".")
 				{
@@ -291,7 +291,7 @@ switch (@$_GET['s'])
 	
 		if(!empty($smdir))
 		{
-			foreach($lists as $f)
+			foreach($smdir as $f)
 			{
 				if(is_dir($path."/".$f) && $f != ".." && $f != ".")
 				{
