@@ -19,11 +19,13 @@ class DB_MySQL extends mysqli
 		$str = "";
 		
 		foreach ($args as $f => $v)
-			$str .= "$f $v, ";
+			$str .= "`$f` $v NOT NULL, ";
 		
-		rtrim($str, ", ");
+		$str = rtrim($str, ", ");
 		
-		return $this->exec("CREATE TABLE $prefix$table (ID INTEGER PRIMARY KEY, $str);");
+		$str = str_replace(array("INTEGER", "TEXT"), array("int(6)", "varchar(20)"), $str);
+		
+		return $this->query("CREATE TABLE `$prefix$table` (`ID` smallint(2) NOT NULL AUTO_INCREMENT, $str, PRIMARY KEY (`ID`)) AUTO_INCREMENT=1;");
 	}
 	
 	function insert($table, $args)
@@ -37,10 +39,10 @@ class DB_MySQL extends mysqli
 			$values .= "'$v', ";
 		}
 		
-		rtrim($fields, ", ");
-		rtrim($values, ", ");
+		$fields = rtrim($fields, ", ");
+		$values = rtrim($values, ", ");
 		
-		return $this->exec("INSERT INTO $prefix$table ($fields) VALUES ($values);");
+		return $this->query("INSERT INTO $prefix$table ($fields) VALUES ($values);");
 	}
 	
 }
