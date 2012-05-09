@@ -40,7 +40,7 @@ class DB_SQLite extends SQLite3
 	
 	function fetchall($table)
 	{
-		$result = $this->query("SELECT * FROM `$prefix$table`;");
+		$result = $this->query("SELECT * FROM $table;");
 		
 		$row = array();
 		$i = 0;

@@ -9,27 +9,19 @@ _sql_init();
 $amxx = $sql->fetchall("amxxversions");
 $sm = $sql->fetchall("smversions");
 
-echo "<pre>";
-var_dump($amxx);
-var_dump($sm);
-echo "</pre>";
+$successamxx = $failureamxx = $successsm = $failuresm = 0;
 
-
-/*
-for ($count = 0; $count < count($stats); $count++)
+for ($count = 0; $count < count($amxx); $count++)
 {
-    if ($stats[$count]['Program'] == "amxx")
-    {
-        $compiledamxx += $stats[$count]['Success'];
-        $failedamxx += $stats[$count]['Fail'];
-    }
-    else if ($stats[$count]['Program'] == "sm")
-    {
-        $compiledsm += $stats[$count]['Success'];
-        $failedsm += $stats[$count]['Fail'];
-    }
+    $successamxx += $amxx[$count]['Success'];
+	$failureamxx += $amxx[$count]['Failure'];
 }
 
+for ($count = 0; $count < count($sm); $count++)
+{
+    $successsm += $sm[$count]['Success'];
+	$failuresm += $sm[$count]['Failure'];
+}
 
 
 
@@ -39,14 +31,13 @@ for ($count = 0; $count < count($stats); $count++)
 <tr><th>Version</th><th>Success</th><th>Failed</th></tr>
 <?php
 
-for ($count = 0; $count < count($stats); $count++)
+for ($count = 0; $count < count($amxx); $count++)
 {
-    if ($stats[$count]['Program'] == "amxx")
-        echo "<tr><td>".sqlite_fetch_single(sqlite_query($sql, "SELECT Name FROM amxxversions WHERE Folder = '{$stats[$count]['Folder']}'"))."</td><td align=\"right\">".$stats[$count]['Success']."</td><td align=\"right\">".$stats[$count]['Fail']."</td></tr>";
+    echo "<tr><td>".$amxx[$count]['Name']."</td><td align=\"right\">".$amxx[$count]['Success']."</td><td align=\"right\">".$amxx[$count]['Failure']."</td></tr>";
 }
 
 ?>
-<tr><td>Total</td><td align="right"><?php echo $compiledamxx; ?></td><td align="right"><?php echo $failedamxx; ?></td></tr>
+<tr><td>Total</td><td align="right"><?php echo $successamxx; ?></td><td align="right"><?php echo $failureamxx; ?></td></tr>
 </table>
 <br>
 <table>
@@ -54,25 +45,17 @@ for ($count = 0; $count < count($stats); $count++)
 <tr><th>Version</th><th>Success</th><th>Failed</th></tr>
 <?php
 
-for ($count = 0; $count < count($stats); $count++)
+for ($count = 0; $count < count($sm); $count++)
 {
-    if ($stats[$count]['Program'] == "sm")
-        echo "<tr><td>".sqlite_fetch_single(sqlite_query($sql, "SELECT Name FROM smversions WHERE Folder = '{$stats[$count]['Folder']}'"))."</td><td align=\"right\">".$stats[$count]['Success']."</td><td align=\"right\">".$stats[$count]['Fail']."</td></tr>";
+    echo "<tr><td>".$sm[$count]['Name']."</td><td align=\"right\">".$sm[$count]['Success']."</td><td align=\"right\">".$sm[$count]['Failure']."</td></tr>";
 }
 
 ?>
-<tr><td>Total</td><td align="right"><?php echo $compiledsm; ?></td><td align="right"><?php echo $failedsm; ?></td></tr>
+<tr><td>Total</td><td align="right"><?php echo $successsm; ?></td><td align="right"><?php echo $failuresm; ?></td></tr>
 </table>
 <br>
-</div>
-<div id="footer">design by <a href="http://www.bryantsmith.com">bryant smith</a> | script by <a href="https://github.com/yamikaitou/Supercentral-Compiler">ryan leblanc</a> </div>
-</div>
-</div>
-</div>
-</body>
-</html>
 <?php
 
-sqlite_close($sql);
-*/
+style_bot();
+
 ?>

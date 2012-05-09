@@ -25,7 +25,7 @@ class DB_MySQL extends mysqli
 		
 		$str = str_replace(array("INTEGER", "TEXT"), array("int(6)", "varchar(20)"), $str);
 		
-		return $this->query("CREATE TABLE `$prefix$table` (`ID` smallint(2) NOT NULL AUTO_INCREMENT, $str, PRIMARY KEY (`ID`)) AUTO_INCREMENT=1;");
+		return $this->query("CREATE TABLE `{$this->prefix}$table` (`ID` smallint(2) NOT NULL AUTO_INCREMENT, $str, PRIMARY KEY (`ID`)) AUTO_INCREMENT=1;");
 	}
 	
 	function insert($table, $args)
@@ -42,13 +42,29 @@ class DB_MySQL extends mysqli
 		$fields = rtrim($fields, ", ");
 		$values = rtrim($values, ", ");
 		
-		return $this->query("INSERT INTO `$prefix$table` ($fields) VALUES ($values);");
+		return $this->query("INSERT INTO `{$this->prefix}$table` ($fields) VALUES ($values);");
 	}
 	
 	function fetchall($table)
 	{
-		$result = $this->query("SELECT * FROM `$prefix$table`;");
-		return $result->fetch_all(MYSQLI_ASSOC);
+		$result = $this->query("SELECT * FROM `{$this->prefix}$table`;");
+		
+		$row = array();
+		$i = 0;
+		
+		while ($res = $result->fetch_array(MYSQLI_ASSOC))
+		{
+			if (!isset($res['ID'])) continue;
+			
+			foreach ($res as $key => $value)
+			{
+				$row[$i][$key] = $value;
+			}
+			
+			$i++;
+		}
+		
+		return $row;
 	}
 	
 }
