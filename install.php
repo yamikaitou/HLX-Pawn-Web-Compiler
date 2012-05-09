@@ -299,7 +299,7 @@ switch (@$_POST['s'])
 			{
 				if(is_dir($general['smcomp']."/".$f) && $f != ".." && $f != ".")
 				{
-					echo "<tr><td><input type=\"text\" name=\"smver[]\" id=\"smver1\" value=\"\"></td><td><input type=\"text\" name=\"smfold[]\" id=\"smfold1\" value=\"$f\"></td><td><input type=\"text\" name=\"smorder[]\" id=\"smorder1\" value=\"\"></td><td><input type=\"checkbox\" name=\"smactive[]\">Active?</td></tr>";
+					echo "<tr><td><input type=\"text\" name=\"smver[]\" id=\"smver1\" value=\"\"></td><td><input type=\"text\" name=\"smfold[]\" id=\"smfold1\" value=\"$f\"></td><td><input type=\"text\" name=\"smorder[]\" id=\"smorder1\" value=\"\"></td><td><input type=\"checkbox\" name=\"smactive[]\"></td></tr>";
 				}
 			}
 		}
