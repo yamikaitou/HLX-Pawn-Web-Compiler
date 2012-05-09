@@ -35,14 +35,20 @@ class DB_MySQL extends mysqli
 		
 		foreach ($args as $f => $v)
 		{
-			$fields .= "$f, ";
+			$fields .= "`$f`, ";
 			$values .= "'$v', ";
 		}
 		
 		$fields = rtrim($fields, ", ");
 		$values = rtrim($values, ", ");
 		
-		return $this->query("INSERT INTO $prefix$table ($fields) VALUES ($values);");
+		return $this->query("INSERT INTO `$prefix$table` ($fields) VALUES ($values);");
+	}
+	
+	function fetch_all($table)
+	{
+		$result = $this->query("SELECT * FROM `$prefix$table`;");
+		return $result->fetch_all(MYSQLI_ASSOC);
 	}
 	
 }

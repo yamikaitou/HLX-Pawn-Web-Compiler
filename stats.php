@@ -1,35 +1,21 @@
-<html>
-<head>
-<title>SuperCentral - Compiler</title>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="bluebliss.css" />
-</head>
-<body>
-<div id="mainContentArea">
-<div id="contentBox">
-<div id="title">SuperCentral Compiler</div>
-
-<div id="linkGroup">
-<div class="link"><a href="index.html">Home</a></div>
-<div class="link"><a href="amxmodx.php">AMXModX</a></div>
-<div class="link"><a href="sourcemod.php">SourceMod</a></div>
-<div class="link"><a href="stats.php">Stats</a></div>
-</div>
-
-<div id="blueBox"> 
-<div id="header"></div>
-<div class="contentTitle">Compiler Stats</div>
-<div class="pageContent">
 <?php
 
-$sql = sqlite_open("configs/data");
-$amxx_results = sqlite_query($sql, "SELECT * FROM amxxversions");
-$amxx = sqlite_fetch_all($amxx_results);
-$sm_results = sqlite_query($sql, "SELECT * FROM smversions");
-$sm = sqlite_fetch_all($sm_results);
-$stats_results = sqlite_query($sql, "SELECT * FROM stats");
-$stats = sqlite_fetch_all($stats_results, SQLITE_ASSOC);
+require_once("functions.php");
 
+style_top("Compiler Stats");
+
+_sql_init();
+
+$amxx = $sql->fetch_all("amxxversions");
+$sm = $sql->fetch_all("smversions");
+
+echo "<pre>";
+var_dump($amxx);
+var_dump($sm);
+echo "</pre>";
+
+
+/*
 for ($count = 0; $count < count($stats); $count++)
 {
     if ($stats[$count]['Program'] == "amxx")
@@ -88,5 +74,5 @@ for ($count = 0; $count < count($stats); $count++)
 <?php
 
 sqlite_close($sql);
-
+*/
 ?>

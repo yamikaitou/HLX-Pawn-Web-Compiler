@@ -37,6 +37,28 @@ class DB_SQLite extends SQLite3
 		
 		return $this->exec("INSERT INTO $table ($fields) VALUES ($values);");
 	}
+	
+	function fetch_all($table)
+	{
+		$result = $this->query("SELECT * FROM `$prefix$table`;");
+		
+		$row = array();
+		$i = 0;
+		
+		while ($res = $result->fetchArray(SQLITE3_ASSOC))
+		{
+			if (!isset($res['ID'])) continue;
+			
+			foreach ($res as $key => $value)
+			{
+				$row[$i][$key] = $value;
+			}
+			
+			$i++;
+		}
+		
+		return $row;
+	}
 }
 
 ?>
