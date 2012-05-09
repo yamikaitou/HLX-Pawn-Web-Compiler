@@ -6,8 +6,8 @@ style_top("Compiler Stats");
 
 _sql_init();
 
-$amxx = $sql->fetch_all("amxxversions");
-$sm = $sql->fetch_all("smversions");
+$amxx = $sql->fetchall("amxxversions");
+$sm = $sql->fetchall("smversions");
 
 echo "<pre>";
 var_dump($amxx);

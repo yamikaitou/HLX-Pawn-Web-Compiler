@@ -4,14 +4,14 @@ class DB_MySQL extends mysqli
 {
 	private $prefix;
 	
-	function __construct($host, $user, $pass, $db, $prefix)
+	function __construct($host, $user, $pass, $db, $tprefix)
 	{
 		parent::__construct($host, $user, $pass, $db);
 		
 		if ($this->connect_error)
 			die("Connection Error: ".$this->connect_error);
 		
-		$this->prefix = $prefix;
+		$this->prefix = $tprefix;
 	}
 	
 	function create($table, $args)
@@ -45,7 +45,7 @@ class DB_MySQL extends mysqli
 		return $this->query("INSERT INTO `$prefix$table` ($fields) VALUES ($values);");
 	}
 	
-	function fetch_all($table)
+	function fetchall($table)
 	{
 		$result = $this->query("SELECT * FROM `$prefix$table`;");
 		return $result->fetch_all(MYSQLI_ASSOC);

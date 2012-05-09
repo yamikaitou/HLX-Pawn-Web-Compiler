@@ -38,7 +38,7 @@ class DB_SQLite extends SQLite3
 		return $this->exec("INSERT INTO $table ($fields) VALUES ($values);");
 	}
 	
-	function fetch_all($table)
+	function fetchall($table)
 	{
 		$result = $this->query("SELECT * FROM `$prefix$table`;");
 		
