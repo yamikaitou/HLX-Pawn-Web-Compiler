@@ -46,13 +46,13 @@ float: left;
 margin-top:24px;
 text-align:center;
 font-family:Georgia, "Times New Roman", Times, serif;
-background-image:url(../images/tab.gif);
+background-image:url(images/tab.gif);
 position:relative; bottom:0px;
 }
 
 .link:hover
 {
-background-image:url(../images/tab2.gif);
+background-image:url(images/tab2.gif);
 }
 
 a
@@ -135,7 +135,7 @@ color:#FF0000;
 width:600px;
 height:20px;
 background-color:#FFFFFF;
-background-image:url(../images/header.gif);
+background-image:url(images/header.gif);
 background-repeat:no-repeat;
 }
 
@@ -144,7 +144,7 @@ background-repeat:no-repeat;
 width:600px;
 height:20px;
 background-color:#FFFFFF;
-background-image:url(../images/footer.gif);
+background-image:url(images/footer.gif);
 background-repeat:no-repeat;
 text-align:center;
 padding-right:10px;
