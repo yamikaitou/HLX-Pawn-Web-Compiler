@@ -248,10 +248,9 @@ switch (@$_POST['s'])
 		
 		_sql_init();
 		
-		$sql->create("amxxversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER'));
-		$sql->create("smversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER'));
+		$sql->create("amxxversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER', 'Success' => 'INTEGER', 'Failure' => 'INTEGER'));
+		$sql->create("smversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER', 'Success' => 'INTEGER', 'Failure' => 'INTEGER'));
 		$sql->create("compile", array('Program' => 'TEXT', 'VerID' => 'TEXT'));
-		$sql->create("stats", array('Program' => 'TEXT', 'VerID' => 'INTEGER', 'Success' => 'INTEGER', 'Failure' => 'INTEGER'));
 		
 		echo "<br/>
 		Click the button to proceed to Step 4<br/>
@@ -323,14 +322,12 @@ switch (@$_POST['s'])
 		
 		for ($k = 0; $k < count($_POST['amxxfold']); $k++)
 		{
-			$sql->insert("amxxversions", array("Name" => $_POST['amxxver'][$k], "Folder" => $_POST['amxxfold'][$k], "Display" => $_POST['amxxorder'][$k], "Active" => intval(isset($_POST['amxxactive'][$k]))));
-			$sql->insert("stats", array("Program" => "amxx", "VerID" => $k, "Success" => 0, "Failure" => 0));
+			$sql->insert("amxxversions", array("Name" => $_POST['amxxver'][$k], "Folder" => $_POST['amxxfold'][$k], "Display" => $_POST['amxxorder'][$k], "Active" => intval(isset($_POST['amxxactive'][$k])), "Success" => 0, "Failure" => 0));
 		}
 		
 		for ($k = 0; $k < count($_POST['smfold']); $k++)
 		{
-			$sql->insert("smversions", array("Name" => $_POST['smver'][$k], "Folder" => $_POST['smfold'][$k], "Display" => $_POST['smorder'][$k], "Active" => intval(isset($_POST['smactive'][$k]))));
-			$sql->insert("stats", array("Program" => "sm", "VerID" => $k, "Success" => 0, "Failure" => 0));
+			$sql->insert("smversions", array("Name" => $_POST['smver'][$k], "Folder" => $_POST['smfold'][$k], "Display" => $_POST['smorder'][$k], "Active" => intval(isset($_POST['smactive'][$k])), "Success" => 0, "Failure" => 0));
 		}
 		
 		echo "Installation Complete<br/>";
