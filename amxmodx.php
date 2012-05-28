@@ -183,7 +183,7 @@ else
 <form method="post" enctype="multipart/form-data" action="amxmodx.php">
 You can use this to compile plugins online.<br>
 Once you upload a file, you will receive the compiler output and a link to the compiled plugin.<br>
-<a href="https://github.com/yamikaitou/Supercentral-Compiler/wiki/Upload-Guide">Guide to understanding the Upload System</a><br>
+<a href="https://github.com/yamikaitou/HLX-Pawn-Web-Compiler/wiki/Upload-Guide">Guide to understanding the Upload System</a><br>
 <br>
 Select the Compiler Version: <?php echo $versions; ?><br>
 <br>
@@ -198,7 +198,7 @@ Plugin File Name: <input type="text" name="boxname"><br>
 </form>
 <?php
 
-//}
+}
 
 ?>
 <br>
