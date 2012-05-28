@@ -7,7 +7,7 @@ class DB_SQLite extends SQLite3
 		$this->open($database, SQLITE3_OPEN_READWRITE|SQLITE3_OPEN_CREATE);
 	}
 	
-	function create($table, $args)
+	function create($table, $args, $auto = true)
 	{
 		$str = "";
 		
@@ -38,9 +38,9 @@ class DB_SQLite extends SQLite3
 		return $this->exec("INSERT INTO $table ($fields) VALUES ($values);");
 	}
 	
-	function fetchall($table)
+	function fetchall($table, $opts = "")
 	{
-		$result = $this->query("SELECT * FROM $table;");
+		$result = $this->query("SELECT * FROM $table $opts;");
 		
 		$row = array();
 		$i = 0;

@@ -1,33 +1,11 @@
-<html>
-<head>
-<title>SuperCentral - Compiler</title>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="bluebliss.css" />
-</head>
-<body>
-<div id="mainContentArea">
-<div id="contentBox">
-<div id="title">SuperCentral Compiler</div>
-
-<div id="linkGroup">
-<div class="link"><a href="index.html">Home</a></div>
-<div class="link"><a href="amxmodx.php">AMXModX</a></div>
-<div class="link"><a href="sourcemod.php">SourceMod</a></div>
-<div class="link"><a href="stats.php">Stats</a></div>
-</div>
-
-<div id="blueBox"> 
-<div id="header"></div>
-<div class="contentTitle">AMXModX Compiler</div>
-<div class="pageContent">
 <?php
 
-$sql = sqlite_open("configs/data");
+require_once("functions.php");
 
-$info_results = sqlite_query($sql, "SELECT * FROM info");
-$info = sqlite_fetch_all($info_results);
-$amxx_results = sqlite_query($sql, "SELECT * FROM amxxversions ORDER BY Display");
-$amxx = sqlite_fetch_all($amxx_results);
+style_top("AMXX Compiler");
+_sql_init();
+
+$amxx = $sql->fetchall("amxxversions", "ORDER BY `Display`");
 
 if (isset($_POST['compile']))
 {
@@ -36,7 +14,7 @@ if (isset($_POST['compile']))
     {
         if (!in_array(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION), array('sma', 'zip', 'gz')))
         {
-            echo "<div class=\"alerterror\">Unable to proceed, invalid file type</div>";
+            echo "<div class=\"error\">Unable to proceed, invalid file type</div>";
             $validated = FALSE;
         }
     }
@@ -44,12 +22,12 @@ if (isset($_POST['compile']))
     {
         if ($_POST['boxname'] == "")
         {
-            echo "<div class=\"alerterror\">Unable to proceed, Plugin File Name missing</div>";
+            echo "<div class=\"error\">Unable to proceed, Plugin File Name missing</div>";
             $validated = FALSE;
         }
         if ($_POST['boxcode'] == "")
         {
-            echo "<div class=\"alerterror\">Unable to proceed, Plugin Code missing</div>";
+            echo "<div class=\"error\">Unable to proceed, Plugin Code missing</div>";
             $validated = FALSE;
         }
     }
@@ -60,20 +38,20 @@ if (isset($_POST['compile']))
             case UPLOAD_ERR_INI_SIZE:
             case UPLOAD_ERR_FORM_SIZE:
             {
-                echo "<div class=\"alerterror\">Unable to proceed, File Size Limit Exceeded</div>";
+                echo "<div class=\"error\">Unable to proceed, File Size Limit Exceeded</div>";
                 $validated = FALSE;
                 break;
             }
             case UPLOAD_ERR_NO_TMP_DIR:
             case UPLOAD_ERR_CANT_WRITE:
             {
-                echo "<div class=\"alerterror\">Unable to proceed, Cannot write temporary file</div>";
+                echo "<div class=\"error\">Unable to proceed, Cannot write temporary file</div>";
                 $validated = FALSE;
                 break;
             }
             default:
             {
-                echo "<div class=\"alerterror\">Unable to proceed, Unknown File related error</div>";
+                echo "<div class=\"error\">Unable to proceed, Unknown File related error</div>";
                 $validated = FALSE;
                 break;
             }
@@ -92,7 +70,7 @@ if (isset($_POST['compile']))
         
         if (!$temp)
         {
-            echo "<div class=\"alerterror\">Unable to proceed, Compiler Version missing</div>";
+            echo "<div class=\"error\">Unable to proceed, Compiler Version missing</div>";
             $validated = FALSE;
         }
     }
@@ -100,18 +78,12 @@ if (isset($_POST['compile']))
 
 if ($validated)
 {
-    do
-    {
-        $rand = "";
-        for ($k = 0; $k < 6; $k++)
-            $rand .= mt_rand(1,9);
-    }
-    while (sqlite_num_rows(sqlite_query($sql, "SELECT * FROM compile WHERE ID = $rand")) > 0);
-    mkdir($info[4]['Value']."/$rand");
+    $rand = sprintf("%09d", mt_rand(1, 99999999));
+    mkdir($general['temp']."/$rand");
     
     if ($_POST['boxcode'] != "")
     {
-        file_put_contents($info[4]['Value']."/$rand/".$_POST['boxname'].".sma", stripslashes($_POST['boxcode']));
+        file_put_contents($general['temp']."/$rand/".$_POST['boxname'].".sma", stripslashes($_POST['boxcode']));
     }
     else
     {
@@ -119,7 +91,7 @@ if ($validated)
         {
             case "sma":
             {
-                move_uploaded_file($_FILES['file']['tmp_name'], $info[4]['Value']."/$rand/".$_FILES['file']['name']);
+                move_uploaded_file($_FILES['file']['tmp_name'], $general['temp']."/$rand/".$_FILES['file']['name']);
                 break;
             }
             case "zip":
@@ -128,16 +100,16 @@ if ($validated)
                 $res = $zip->open($_FILES['file']['tmp_name']);
                 if ($res === TRUE)
                 {
-                    $zip->extractTo($info[4]['Value']."/$rand");
+                    $zip->extractTo($general['temp']."/$rand");
                     $zip->close();
                 }
                 break;
             }
             case "gz":
             {
-                move_uploaded_file($_FILES['file']['tmp_name'], $info[4]['Value']."/$rand/".$_FILES['file']['name']);
-                exec("cd {$info[4]['Value']}/$rand; tar xvfz ".$_FILES['file']['name']);
-                unlink($info[4]['Value']."/$rand/".$_FILES['file']['name']);
+                move_uploaded_file($_FILES['file']['tmp_name'], $general['temp']."/$rand/".$_FILES['file']['name']);
+                exec("cd {$general['temp']}/$rand; tar xvfz ".$_FILES['file']['name']);
+                unlink($general['temp']."/$rand/".$_FILES['file']['name']);
                 break;
             }
         }
@@ -147,14 +119,14 @@ if ($validated)
     }
     
     
-    
-    sqlite_exec($sql, "INSERT INTO compile VALUES('$rand', 'amxx', '{$_POST['ver']}', '".pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION)."');");
-    
+    $sql->insert("compile", array("ID" => "$rand", "Program" => "amxx", "VerID" => "{$_POST['ver']}"));
+    echo "http://".$_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME)."/compile.php?id=$rand";
+	/*
     $curl = curl_init("http://".$_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME)."/compile.php?id=$rand");
     curl_exec($curl);
     curl_close($curl);
     
-    if (count(scandir($info[3]['Value']."/$rand"))&1)
+    if (count(scandir($general['compiled']."/$rand"))&1)
     {
         sqlite_exec($sql, "UPDATE stats SET Fail = Fail + 1 WHERE Program = 'amxx' AND Folder = '{$_POST['ver']}'");
         echo "Compile failed. See the compiler output below.<br><br>";
@@ -172,19 +144,19 @@ The compiler's output is shown below for reference.<br>
 
     }
     
-    $files = scandir($info[3]['Value']."/$rand");
+    $files = scandir($general['compiled']."/$rand");
     foreach ($files as $object)
     {
         if ($object != "." && $object != "..")
         {
-            if (pathinfo($info[3]['Value']."/$rand/".$object, PATHINFO_EXTENSION) == "txt")
+            if (pathinfo($general['compiled']."/$rand/".$object, PATHINFO_EXTENSION) == "txt")
             {
-                $fail = explode("\n", file_get_contents($info[3]['Value']."/$rand/$object"));
+                $fail = explode("\n", file_get_contents($general['compiled']."/$rand/$object"));
                 for ($k = 0; $k < sizeof($fail); $k++)
                     echo $fail[$k]."<br>";
             }
         }
-    }
+    }*/
 }
 else
 {
@@ -196,17 +168,17 @@ else
         if ($amxx[$count]['Name'] == "" AND $count == 0)
             $versions .= "<option value=\".\" selected>N/A";
         else if ($count == 0)
-            $versions .= "<option value=\"{$amxx[$count]['Folder']}\" selected>{$amxx[$count]['Name']}";
+            $versions .= "<option value=\"{$amxx[$count]['ID']}\" selected>{$amxx[$count]['Name']}";
         else if ($amxx[$count]['Name'] == "")
             break;
         else
-            $versions .= "<option value=\"{$amxx[$count]['Folder']}\">{$amxx[$count]['Name']}";
+            $versions .= "<option value=\"{$amxx[$count]['ID']}\">{$amxx[$count]['Name']}";
         
         $count++;
     }
     
     $versions .= "</select>";
-    
+
 ?>
 <form method="post" enctype="multipart/form-data" action="amxmodx.php">
 You can use this to compile plugins online.<br>
@@ -226,19 +198,12 @@ Plugin File Name: <input type="text" name="boxname"><br>
 </form>
 <?php
 
-}
+//}
 
 ?>
 <br>
-</div>
-<div id="footer">design by <a href="http://www.bryantsmith.com">bryant smith</a> | script by <a href="https://github.com/yamikaitou/Supercentral-Compiler">ryan leblanc</a> </div>
-</div>
-</div>
-</div>
-</body>
-</html>
 <?php
 
-sqlite_close($sql);
+style_bot();
 
 ?>

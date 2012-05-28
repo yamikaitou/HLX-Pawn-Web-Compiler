@@ -14,7 +14,7 @@ class DB_MySQL extends mysqli
 		$this->prefix = $tprefix;
 	}
 	
-	function create($table, $args)
+	function create($table, $args, $auto = true)
 	{
 		$str = "";
 		
@@ -23,9 +23,12 @@ class DB_MySQL extends mysqli
 		
 		$str = rtrim($str, ", ");
 		
-		$str = str_replace(array("INTEGER", "TEXT"), array("int(6)", "varchar(20)"), $str);
+		$str = str_replace(array("INTEGER", "TEXT"), array("int(9)", "varchar(20)"), $str);
 		
-		return $this->query("CREATE TABLE `{$this->prefix}$table` (`ID` smallint(2) NOT NULL AUTO_INCREMENT, $str, PRIMARY KEY (`ID`)) AUTO_INCREMENT=1;");
+		if ($auto)
+			return $this->query("CREATE TABLE `{$this->prefix}$table` (`ID` smallint(2) NOT NULL AUTO_INCREMENT, $str, PRIMARY KEY (`ID`)) AUTO_INCREMENT=1;");
+		else
+			return $this->query("CREATE TABLE `{$this->prefix}$table` ($str);");
 	}
 	
 	function insert($table, $args)
@@ -45,9 +48,9 @@ class DB_MySQL extends mysqli
 		return $this->query("INSERT INTO `{$this->prefix}$table` ($fields) VALUES ($values);");
 	}
 	
-	function fetchall($table)
+	function fetchall($table, $opts = "")
 	{
-		$result = $this->query("SELECT * FROM `{$this->prefix}$table`;");
+		$result = $this->query("SELECT * FROM `{$this->prefix}$table`  $opts;");
 		
 		$row = array();
 		$i = 0;

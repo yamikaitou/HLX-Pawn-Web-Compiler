@@ -40,7 +40,6 @@ function style_bot()
 </div>
 </body>
 </html>
-
 <?php
 }
 

@@ -26,6 +26,7 @@ for ($count = 0; $count < count($sm); $count++)
 
 
 ?>
+<center>
 <table>
 <tr><th colspan="3">AMXModX Stats</th></tr>
 <tr><th>Version</th><th>Success</th><th>Failed</th></tr>
@@ -53,6 +54,7 @@ for ($count = 0; $count < count($sm); $count++)
 ?>
 <tr><td>Total</td><td align="right"><?php echo $successsm; ?></td><td align="right"><?php echo $failuresm; ?></td></tr>
 </table>
+</center>
 <br>
 <?php
 
