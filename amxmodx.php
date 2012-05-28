@@ -64,7 +64,7 @@ if (isset($_POST['compile']))
         $temp = FALSE;
         while ($count < count($amxx) AND !$temp)
         {
-            if ($amxx[$count]['Folder'] == $_POST['ver'])
+            if ($amxx[$count]['ID'] == $_POST['ver'])
                 $temp = TRUE;
         }
         
