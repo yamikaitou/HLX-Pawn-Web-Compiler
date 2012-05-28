@@ -4,8 +4,6 @@ require_once("functions.php");
 
 style_top("Compiler Stats");
 
-_sql_init();
-
 $amxx = $sql->fetchall("amxxversions");
 $sm = $sql->fetchall("smversions");
 

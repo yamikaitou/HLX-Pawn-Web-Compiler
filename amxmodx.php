@@ -3,7 +3,6 @@
 require_once("functions.php");
 
 style_top("AMXX Compiler");
-_sql_init();
 
 $amxx = $sql->fetchall("amxxversions", "ORDER BY `Display`");
 $validated = TRUE;

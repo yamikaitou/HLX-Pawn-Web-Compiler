@@ -246,11 +246,9 @@ switch (@$_POST['s'])
 		echo "Install - Step 3<br/>
 		Setting up SQL...<br/>";
 		
-		_sql_init();
-		
-		$sql->create("amxxversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER', 'Success' => 'INTEGER', 'Failure' => 'INTEGER'));
-		$sql->create("smversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER', 'Success' => 'INTEGER', 'Failure' => 'INTEGER'));
-		$sql->create("compile", array('Program' => 'TEXT', 'VerID' => 'TEXT'));
+		$sql->create("amxxversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER', 'Success' => 'INTEGER', 'Failure' => 'INTEGER'), TRUE);
+		$sql->create("smversions", array('Name' => 'TEXT', 'Folder' => 'TEXT', 'Display' => 'INTEGER', 'Active' => 'INTEGER', 'Success' => 'INTEGER', 'Failure' => 'INTEGER'), TRUE);
+		$sql->create("compile", array('ID' => 'INTEGER', 'Program' => 'TEXT', 'VerID' => 'INTEGER'), FALSE);
 		
 		echo "<br/>
 		Click the button to proceed to Step 4<br/>
@@ -314,8 +312,6 @@ switch (@$_POST['s'])
 	}
 	case 5:
 	{
-		_sql_init();
-		
 		echo "Install - Step 5<br/>
 		<br/>";
 		

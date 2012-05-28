@@ -6,7 +6,6 @@ else if (!is_numeric($_GET['id']))
 	die ("Invalid File ID");
 
 require_once("functions.php");
-_sql_init();
 
 $id = $_GET['id'];
 
