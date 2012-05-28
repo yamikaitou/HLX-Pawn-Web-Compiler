@@ -7,7 +7,7 @@ class DB_SQLite extends SQLite3
 		$this->open($database, SQLITE3_OPEN_READWRITE|SQLITE3_OPEN_CREATE);
 	}
 	
-	function create($table, $args, $auto = true)
+	function create($table, $args, $auto)
 	{
 		$str = "";
 		

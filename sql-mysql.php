@@ -14,7 +14,7 @@ class DB_MySQL extends mysqli
 		$this->prefix = $tprefix;
 	}
 	
-	function create($table, $args, $auto = true)
+	function create($table, $args, $auto = FALSE)
 	{
 		$str = "";
 		
