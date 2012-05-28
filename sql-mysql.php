@@ -48,6 +48,13 @@ class DB_MySQL extends mysqli
 		return $this->query("INSERT INTO `{$this->prefix}$table` ($fields) VALUES ($values);");
 	}
 	
+	function fetch($table, $value)
+	{
+		$result = $this->query("SELECT * FROM `{$this->prefix}$table` WHERE `ID` = $value;");
+		
+		return $result->fetch_array(MYSQLI_ASSOC);
+	}
+	
 	function fetchall($table, $opts = "")
 	{
 		$result = $this->query("SELECT * FROM `{$this->prefix}$table`  $opts;");
