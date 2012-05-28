@@ -6,10 +6,10 @@ style_top("AMXX Compiler");
 _sql_init();
 
 $amxx = $sql->fetchall("amxxversions", "ORDER BY `Display`");
+$validated = TRUE;
 
 if (isset($_POST['compile']))
 {
-    $validated = TRUE;
     if ($_FILES['file']['error'] == UPLOAD_ERR_OK)
     {
         if (!in_array(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION), array('sma', 'zip', 'gz')))
@@ -75,6 +75,8 @@ if (isset($_POST['compile']))
         }
     }
 }
+else
+	$validated = FALSE;
 
 if ($validated)
 {
