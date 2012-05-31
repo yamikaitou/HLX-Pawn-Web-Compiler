@@ -17,7 +17,7 @@ if ($compile === FALSE OR $compile === NULL)
 
 if ($compile['Program'] == 'amxx')
 {
-    if (count($version) == 1)
+    if (count($version) == 7)
         $folder = $version['Folder'];
     else
         $folder = ".";
@@ -29,17 +29,13 @@ if ($compile['Program'] == 'amxx')
         {
             touch($general['compiled']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt");
             file_put_contents($general['compiled']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt", "Compiling ".$file."\n", FILE_APPEND);
-            exec("cd ".$general['amxxcomp']."/$folder; ./amxxpc \"".$general['temp']."/$id/$file\" -o".$general['compiled']."/$id/".pathinfo($file, PATHINFO_FILENAME).".amxx"." >> ".$general['compiled']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt");
+			exec("cd ".$general['amxxcomp']."/$folder; ./amxxpc \"".$general['temp']."/$id/$file\" -o".$general['compiled']."/$id/".pathinfo($file, PATHINFO_FILENAME).".amxx"." >> ".$general['compiled']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt");
             file_put_contents($general['compiled']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt", "\n", FILE_APPEND);
         }
-    
-//    $fail = explode("\n", file_get_contents($general['compiled']."/$id/temp.txt"));
-//	for ($k = 0; $k < sizeof($fail); $k++)
-//		echo $fail[$k]."<br />";
 }
 else if ($compile['Program'] == 'sm')
 {
-    if (count($version) == 1)
+    if (count($version) == 7)
         $folder = $version['Folder'];
     else
         $folder = ".";
@@ -54,10 +50,6 @@ else if ($compile['Program'] == 'sm')
             exec("cd ".$general['smcomp']."/$folder; ./spcomp \"".$general['temp']."/$id/$file\" -o".$general['compiled']."/$id/".pathinfo($file, PATHINFO_FILENAME).".smx"." >> ".$general['compiled']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt");
             file_put_contents($general['compiled']."/$id/".pathinfo($file, PATHINFO_FILENAME).".txt", "\n", FILE_APPEND);
         }
-//    $fail = explode("\n", file_get_contents($general['compiled']."/$id/temp.txt"));
-//	for ($k = 0; $k < sizeof($fail); $k++)
-//		echo $fail[$k]."<br />";
 }
-
 
 ?>
