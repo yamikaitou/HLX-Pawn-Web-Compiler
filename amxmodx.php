@@ -161,7 +161,7 @@ The compiler's output is shown below for reference.<br>
                     echo $fail[$k]."<br>";
             }
         }
-    }*/
+    }
 }
 else
 {
