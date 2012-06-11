@@ -133,7 +133,7 @@ if ($validated)
     
     if (count(scandir($general['compiled']."/$rand"))&1)
     {
-		$sql->update("amxxversions", {$_POST['ver']}, array("Failure" => $amxx[$row]['Failure']+1));
+		$sql->update("amxxversions", $_POST['ver'], array("Failure" => $amxx[$row]['Failure']+1));
         echo "Compile failed. See the compiler output below.<br><br>";
     }
     else
