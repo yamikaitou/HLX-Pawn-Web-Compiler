@@ -138,7 +138,7 @@ if ($validated)
     }
     else
     {
-        $sql->update("amxxversions", {$_POST['ver']}, array("Success" => $amxx[$row]['Success']+1));
+        $sql->update("amxxversions", $_POST['ver'], array("Success" => $amxx[$row]['Success']+1));
 ?>
 Use the link below to download your plugin. It will expire after 1 hour<br>
 <a href="http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>download.php?id=<?php echo $rand; ?>">http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>download.php?id=<?php echo $rand; ?></a><br>
