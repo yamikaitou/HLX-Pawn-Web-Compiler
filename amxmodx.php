@@ -6,6 +6,7 @@ style_top("AMXX Compiler");
 
 $amxx = $sql->fetchall("amxxversions", "ORDER BY `Display`");
 $validated = TRUE;
+$row = 0;
 
 if (isset($_POST['compile']))
 {
@@ -64,7 +65,11 @@ if (isset($_POST['compile']))
         while ($count < count($amxx) AND !$temp)
         {
             if ($amxx[$count]['ID'] == $_POST['ver'])
+			{
+				$row = $count;
                 $temp = TRUE;
+				break;
+			}
         }
         
         if (!$temp)
@@ -121,23 +126,22 @@ if ($validated)
     
     
     $sql->insert("compile", array("ID" => "$rand", "Program" => "amxx", "VerID" => "{$_POST['ver']}"));
-    echo "http://".$_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME)."/compile.php?id=$rand";
-	/*
-    $curl = curl_init("http://".$_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME)."/compile.php?id=$rand");
+    
+    $curl = curl_init("http://".$_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME)."compile.php?id=$rand");
     curl_exec($curl);
     curl_close($curl);
     
     if (count(scandir($general['compiled']."/$rand"))&1)
     {
-        sqlite_exec($sql, "UPDATE stats SET Fail = Fail + 1 WHERE Program = 'amxx' AND Folder = '{$_POST['ver']}'");
+		$sql->update("amxxversions", {$_POST['ver']}, array("Failure" => $amxx[$row]['Failure']+1));
         echo "Compile failed. See the compiler output below.<br><br>";
     }
     else
     {
-        sqlite_exec($sql, "UPDATE stats SET Success = Success + 1 WHERE Program = 'amxx' AND Folder = '{$_POST['ver']}'");
+        $sql->update("amxxversions", {$_POST['ver']}, array("Success" => $amxx[$row]['Success']+1));
 ?>
 Use the link below to download your plugin. It will expire after 1 hour<br>
-<a href="http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>/download.php?id=<?php echo $rand; ?>">http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>/download.php?id=<?php echo $rand; ?></a><br>
+<a href="http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>download.php?id=<?php echo $rand; ?>">http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>download.php?id=<?php echo $rand; ?></a><br>
 <br>
 The compiler's output is shown below for reference.<br>
 <br>

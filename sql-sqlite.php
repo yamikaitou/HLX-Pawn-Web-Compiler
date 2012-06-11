@@ -66,6 +66,20 @@ class DB_SQLite extends SQLite3
 		
 		return $row;
 	}
+	
+	function update($table, $id, $args)
+	{
+		$str = "";
+		
+		foreach ($args as $f => $v)
+		{
+			$str .= "$f = '$v', ";
+		}
+		
+		$str = rtrim($str, ", ");
+		
+		return $this->query("UPDATE $table SET $str WHERE ID = $id;");
+	}
 }
 
 ?>
