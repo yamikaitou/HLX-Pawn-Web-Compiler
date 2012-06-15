@@ -119,13 +119,10 @@ if ($validated)
                 break;
             }
         }
-        
-        
-        
     }
     
     
-    $sql->insert("compile", array("ID" => "$rand", "Program" => "amxx", "VerID" => "{$_POST['ver']}"));
+    $sql->insert("compile", array("ID" => $rand, "Program" => "amxx", "VerID" => $_POST['ver']));
     
     $curl = curl_init("http://".$_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME)."compile.php?id=$rand");
     curl_exec($curl);
@@ -133,19 +130,19 @@ if ($validated)
     
     if (count(scandir($general['compiled']."/$rand"))&1)
     {
-		$sql->update("amxxversions", $_POST['ver'], array("Failure" => $amxx[$row]['Failure']+1));
+		$sql->update("amxxversions", $_POST['ver'], array("Failure" => ($amxx[$row]['Failure']+1)));
         echo "Compile failed. See the compiler output below.<br><br>";
     }
     else
     {
-        $sql->update("amxxversions", $_POST['ver'], array("Success" => $amxx[$row]['Success']+1));
+        $sql->update("amxxversions", $_POST['ver'], array("Success" => ($amxx[$row]['Success']+1)));
 ?>
 Use the link below to download your plugin. It will expire after 1 hour<br>
 <a href="http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>download.php?id=<?php echo $rand; ?>">http://<?php echo $_SERVER["SERVER_NAME"].pathinfo($_SERVER["REQUEST_URI"], PATHINFO_DIRNAME); ?>download.php?id=<?php echo $rand; ?></a><br>
 <br>
 The compiler's output is shown below for reference.<br>
 <br>
-<?
+<?php
 
     }
     
